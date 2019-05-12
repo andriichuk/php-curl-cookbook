@@ -1,7 +1,9 @@
 # List of commonly used cases with CURL library
 
-Library [Home Page](https://curl.haxx.se/) and [Wiki Page](https://ec.haxx.se/).
+CURL Library [Home Page](https://curl.haxx.se/) and [Wiki Page](https://ec.haxx.se/).
+
 PHP [Extension Page](http://docs.php.net/manual/en/book.curl.php) and [List Of Options](http://docs.php.net/manual/en/function.curl-setopt.php).
+
 PHP [Guzzle](http://docs.guzzlephp.org/en/stable/overview.html) library - wrapper over PHP CURL extension.
 
 For testing requests we will use the excellent services [httpbin.org](https://httpbin.org/) and [Postman Echo](https://docs.postman-echo.com).
