@@ -67,7 +67,7 @@ echo(
 {"args":{"foo":"bar"},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","user-agent":"GuzzleHttp/6.3.3 curl/7.64.0 PHP/7.3.5-1+ubuntu19.04.1+deb.sury.org+1","x-forwarded-port":"443"},"url":"https://postman-echo.com/get?foo=bar"}
 ```
 
-### POST Raw request
+### POST raw request
 
 #### Bash
 
@@ -135,4 +135,76 @@ echo(
 
 ```json
 {"args":{},"data":"","files":{},"form":{"POST raw request content":""},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","content-length":"24","content-type":"application/x-www-form-urlencoded","user-agent":"GuzzleHttp/6.3.3 curl/7.64.0 PHP/7.3.5-1+ubuntu19.04.1+deb.sury.org+1","x-forwarded-port":"443"},"json":{"POST raw request content":""},"url":"https://postman-echo.com/post"}
+```
+
+### POST form data
+
+#### Bash
+
+```bash
+curl --request POST "https://postman-echo.com/post" --data "foo=bar&baz=biz" --max-time 10
+```
+
+### PHP CURL extension
+
+```php
+$curlHandler = curl_init();
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://postman-echo.com/post',
+    CURLOPT_CONNECTTIMEOUT => 10,
+    CURLOPT_TIMEOUT => 10,
+    CURLOPT_RETURNTRANSFER => true,
+
+    /**
+     * Specify POST method
+     */
+    CURLOPT_POST => true,
+
+    /**
+     * Specify array of form fields
+     */
+    CURLOPT_POSTFIELDS => [
+        'foo' => 'bar',
+        'baz' => 'biz',
+    ],
+]);
+
+$response = curl_exec($curlHandler);
+
+curl_close($curlHandler);
+
+echo($response);
+```
+
+#### PHP Guzzle library
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+
+$httpClient = new Client([
+    RequestOptions::TIMEOUT => 10.0,
+    RequestOptions::CONNECT_TIMEOUT => 10.0,
+]);
+
+$response = $httpClient->post(
+    'https://postman-echo.com/post',
+    [
+        RequestOptions::FORM_PARAMS => [
+            'foo' => 'bar',
+            'baz' => 'biz',
+        ],
+    ]
+);
+
+echo(
+    $response->getBody()->getContents()
+);
+```
+
+#### Response example
+
+```json
+{"args":{},"data":"","files":{},"form":{"foo":"bar","baz":"biz"},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","content-length":"15","content-type":"application/x-www-form-urlencoded","user-agent":"GuzzleHttp/6.3.3 curl/7.64.0 PHP/7.3.5-1+ubuntu19.04.1+deb.sury.org+1","x-forwarded-port":"443"},"json":{"foo":"bar","baz":"biz"},"url":"https://postman-echo.com/post"}
 ```
