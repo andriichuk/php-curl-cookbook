@@ -352,3 +352,75 @@ echo(
 ```json
 {"args":{},"data":"","files":{},"form":{"foo":"bar","baz":"biz"},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","content-length":"15","accept":"*/*","content-type":"application/x-www-form-urlencoded","user-agent":"curl/7.64.0","x-forwarded-port":"443"},"json":{"foo":"bar","baz":"biz"},"url":"https://postman-echo.com/patch"}
 ```
+
+### DELETE method
+
+#### Bash
+
+```bash
+curl --request DELETE "https://postman-echo.com/delete" --data "foo=bar&baz=biz" --max-time 10
+```
+
+#### PHP CURL extension
+
+```php
+$curlHandler = curl_init();
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://postman-echo.com/delete',
+    CURLOPT_CONNECTTIMEOUT => 10,
+    CURLOPT_TIMEOUT => 10,
+    CURLOPT_RETURNTRANSFER => true,
+
+    /**
+     * Specify custom HTTP request method
+     */
+    CURLOPT_CUSTOMREQUEST => 'DELETE',
+
+    /**
+     * Specify request body (can be array or string)
+     */
+    CURLOPT_POSTFIELDS => [
+        'foo' => 'bar',
+        'baz' => 'biz',
+    ]
+]);
+
+$pageContent = curl_exec($curlHandler);
+
+curl_close($curlHandler);
+
+echo($pageContent);
+```
+
+#### PHP Guzzle library
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+
+$httpClient = new Client([
+    RequestOptions::TIMEOUT => 10.0,
+    RequestOptions::CONNECT_TIMEOUT => 10.0,
+]);
+
+$response = $httpClient->delete(
+    'https://postman-echo.com/delete',
+    [
+        RequestOptions::FORM_PARAMS => [
+            'foo' => 'bar',
+            'baz' => 'biz',
+        ],
+    ]
+);
+
+echo(
+    $response->getBody()->getContents()
+);
+```
+
+#### Response example
+
+```json
+{"args":{},"data":"","files":{},"form":{"foo":"bar","baz":"biz"},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","content-length":"15","content-type":"application/x-www-form-urlencoded","user-agent":"GuzzleHttp/6.3.3 curl/7.64.0 PHP/7.3.5-1+ubuntu19.04.1+deb.sury.org+1","x-forwarded-port":"443"},"json":{"foo":"bar","baz":"biz"},"url":"https://postman-echo.com/delete"}
+```
