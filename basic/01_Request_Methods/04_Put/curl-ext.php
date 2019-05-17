@@ -14,7 +14,7 @@ curl_setopt_array($curlHandler, [
     CURLOPT_CUSTOMREQUEST => 'PUT',
 
     /**
-     * Specify request body (can be array of string)
+     * Specify request body (can be array or string)
      */
     CURLOPT_POSTFIELDS => [
         'foo' => 'bar',
