@@ -1,6 +1,6 @@
 # List of commonly used cases with CURL library
 
-CURL Library [Home Page](https://curl.haxx.se/) and [Wiki Page](https://ec.haxx.se/).
+Library [Home Page](https://curl.haxx.se/) and [Wiki Page](https://ec.haxx.se/).
 
 PHP [Extension Page](http://docs.php.net/manual/en/book.curl.php) and [List Of Options](http://docs.php.net/manual/en/function.curl-setopt.php).
 
@@ -10,15 +10,15 @@ For testing requests we will use the excellent services [httpbin.org](https://ht
 
 ## Request methods
 
-### GET
+### GET Method
 
-**Bash**
+#### Bash
 
 ```bash
 curl --request GET "https://postman-echo.com/get?foo=bar" --max-time 10
 ```
 
-**PHP CURL extension**
+#### PHP CURL extension
 
 ```php
 $curlHandler = curl_init();
@@ -36,7 +36,7 @@ curl_close($curlHandler);
 echo($response);
 ```
 
-**Guzzle library**
+#### PHP Guzzle library
 
 ```php
 use GuzzleHttp\Client;
@@ -61,7 +61,77 @@ echo(
 );
 ```
 
-**Response example**
+#### Response example
+
+-```json
+-{"args":{"foo":"bar"},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","user-agent":"GuzzleHttp/6.3.3 curl/7.64.0 PHP/7.3.5-1+ubuntu19.04.1+deb.sury.org+1","x-forwarded-port":"443"},"url":"https://postman-echo.com/get?foo=bar"}
+
+### POST Raw request
+
+#### Bash
+
+```bash
+curl --request POST "https://postman-echo.com/post" --data "POST raw request content" --max-time 10
+```
+
+### PHP CURL extension
+
+```php
+$curlHandler = curl_init();
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://postman-echo.com/post',
+    CURLOPT_CONNECTTIMEOUT => 10,
+    CURLOPT_TIMEOUT => 10,
+    CURLOPT_RETURNTRANSFER => true,
+
+    /**
+     * Specify POST method
+     */
+    CURLOPT_POST => true,
+
+    /**
+     * Specify request content
+     */
+    CURLOPT_POSTFIELDS => 'POST raw request content',
+]);
+
+$response = curl_exec($curlHandler);
+
+curl_close($curlHandler);
+
+echo($response);
+```
+
+#### PHP Guzzle library
+
+```php
+
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+
+$httpClient = new Client([
+    RequestOptions::TIMEOUT => 10.0,
+    RequestOptions::CONNECT_TIMEOUT => 10.0,
+]);
+
+$response = $httpClient->post(
+    'https://postman-echo.com/post',
+    [
+        RequestOptions::BODY => 'POST raw request content',
+        RequestOptions::HEADERS => [
+            'Content-Type' => 'application/x-www-form-urlencoded',
+        ],
+    ]
+);
+
+echo(
+    $response->getBody()->getContents()
+);
+```
+
+#### Response expample
+
 ```json
-{"args":{"foo":"bar"},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","user-agent":"GuzzleHttp/6.3.3 curl/7.64.0 PHP/7.3.5-1+ubuntu19.04.1+deb.sury.org+1","x-forwarded-port":"443"},"url":"https://postman-echo.com/get?foo=bar"}
+{"args":{},"data":"","files":{},"form":{"POST raw request content":""},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","content-length":"24","content-type":"application/x-www-form-urlencoded","user-agent":"GuzzleHttp/6.3.3 curl/7.64.0 PHP/7.3.5-1+ubuntu19.04.1+deb.sury.org+1","x-forwarded-port":"443"},"json":{"POST raw request content":""},"url":"https://postman-echo.com/post"}
 ```
