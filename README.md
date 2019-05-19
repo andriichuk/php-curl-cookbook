@@ -720,3 +720,67 @@ $httpClient->get(
 * Connected to postman-echo.com (35.153.115.14) port 443 (#0)
 // ...
 ```
+
+## Follow redirects
+
+#### Bash
+
+```bash
+curl --location --max-redirs 5 -X GET "https://httpbin.org/absolute-redirect/3"
+```
+
+#### PHP CURL extension
+
+```php
+$curlHandler = curl_init();
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://httpbin.org/absolute-redirect/3',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_FOLLOWLOCATION => false,
+    CURLOPT_MAXREDIRS => 5,
+]);
+
+$content = curl_exec($curlHandler);
+
+curl_getinfo($curlHandler);
+
+curl_close($curlHandler);
+
+print_r($curlInfo);
+```
+
+#### PHP Guzzle library
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+use GuzzleHttp\TransferStats;
+
+$httpClient = new Client();
+
+$response = $httpClient->get(
+    'https://httpbin.org/absolute-redirect/3',
+    [
+        RequestOptions::ALLOW_REDIRECTS => [
+            'max' => 5,
+        ],
+    ]
+);
+
+echo $response->getStatusCode();
+```
+
+#### Response example
+
+```json
+{
+  "args": {}, 
+  "headers": {
+    "Accept": "*/*", 
+    "Host": "httpbin.org", 
+    "User-Agent": "curl/7.64.0"
+  }, 
+  "url": "https://httpbin.org/get"
+}
+```
