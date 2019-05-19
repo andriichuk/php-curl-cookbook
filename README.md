@@ -601,3 +601,61 @@ Array
     [redirect_count] => 0
     // ...
 ```
+
+## Debug Request
+
+### Output debug info to STDERR
+
+#### Bash
+
+```bash
+curl --verbose --request GET "https://postman-echo.com/get?foo=bar"
+```
+
+#### PHP CURL extension
+
+```php
+$curlHandler = curl_init();
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://postman-echo.com/get?foo=bar',
+    CURLOPT_RETURNTRANSFER => true,
+
+    /**
+     * Specify debug option
+     */
+    CURLOPT_VERBOSE => true,
+]);
+
+curl_exec($curlHandler);
+
+curl_close($curlHandler);
+```
+
+#### PHP Guzzle library
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+
+$httpClient = new Client();
+
+$httpClient->get(
+    'https://postman-echo.com/get?foo=bar',
+    [
+        RequestOptions::DEBUG => true,
+    ]
+);
+```
+
+#### Response example
+
+```plain
+*   Trying 35.153.115.14...
+* TCP_NODELAY set
+* Expire in 149999 ms for 3 (transfer 0x55b754f97120)
+* Expire in 200 ms for 4 (transfer 0x55b754f97120)
+* Connected to postman-echo.com (35.153.115.14) port 443 (#0)
+// ...
+```
+
