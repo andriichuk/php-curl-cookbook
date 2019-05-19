@@ -537,3 +537,67 @@ Array
         )
     // ...	
 ```
+
+## Request stats
+
+#### Bash
+
+See full list of options [here](https://ec.haxx.se/usingcurl-writeout.html)
+
+```bash
+curl --request GET "https://postman-echo.com/get?foo=bar" -w "size_download:  %{size_download}" -o /dev/null -s
+```
+
+#### PHP CURL extension
+
+```php
+$curlHandler = curl_init();
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://postman-echo.com/get?foo=bar',
+    CURLOPT_RETURNTRANSFER => true,
+]);
+
+curl_exec($curlHandler);
+
+$curlInfo = curl_getinfo($curlHandler);
+
+curl_close($curlHandler);
+
+print_r($curlInfo);
+```
+
+#### PHP Guzzle library
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+use GuzzleHttp\TransferStats;
+
+$httpClient = new Client();
+
+$httpClient->get(
+    'https://postman-echo.com/get',
+    [
+        RequestOptions::ON_STATS => function (TransferStats $stats) {
+            print_r($stats->getHandlerStats());
+        }
+    ]
+);
+```
+
+#### Response example
+
+```plain
+Array
+(
+    [url] => https://postman-echo.com/get
+    [content_type] => application/json; charset=utf-8
+    [http_code] => 200
+    [header_size] => 354
+    [request_size] => 128
+    [filetime] => -1
+    [ssl_verify_result] => 0
+    [redirect_count] => 0
+    // ...
+```

@@ -32,6 +32,4 @@ curl_exec($curlHandler);
 
 curl_close($curlHandler);
 
-print_r(
-    array_filter($headers)
-);
+print_r(array_filter($headers));

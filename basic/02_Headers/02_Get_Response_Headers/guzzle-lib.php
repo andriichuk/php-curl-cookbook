@@ -8,6 +8,4 @@ $httpClient = new Client();
 
 $response = $httpClient->get('https://postman-echo.com/response-headers?foo=bar');
 
-print_r(
-    $response->getHeaders()
-);
+print_r($response->getHeaders());
