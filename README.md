@@ -459,4 +459,81 @@ print_r(
 {"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","baz":"biz","foo":"bar","user-agent":"GuzzleHttp/6.3.3 curl/7.64.0 PHP/7.3.5-1+ubuntu19.04.1+deb.sury.org+1","x-forwarded-port":"443"}}
 ```
 
+### Get response headers
 
+#### Bash
+
+```bash
+curl --request GET "https://postman-echo.com/response-headers?Content-Type=text/html&foo=bar"
+```
+
+#### PHP CURL extension
+
+```php
+$headers = [];
+
+$curlHandler = curl_init();
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://postman-echo.com/response-headers?foo=bar',
+
+    /**
+     * Exclude the body from the output
+     */
+    CURLOPT_NOBODY => true,
+    CURLOPT_RETURNTRANSFER => false,
+
+    /**
+     * Include the header in the output
+     */
+    CURLOPT_HEADER => false,
+
+    /**
+     * Collect server response headers
+     */
+    CURLOPT_HEADERFUNCTION => function ($curlInfo, $header) use (&$headers) {
+        array_push($headers, trim($header));
+
+        return mb_strlen($header);
+    },
+]);
+
+curl_exec($curlHandler);
+
+curl_close($curlHandler);
+
+print_r(
+    array_filter($headers)
+);
+```
+
+#### PHP Guzzle library
+
+```php
+use GuzzleHttp\Client;
+
+$httpClient = new Client();
+
+$response = $httpClient->get('https://postman-echo.com/response-headers?foo=bar');
+
+print_r(
+    $response->getHeaders()
+);
+```
+
+#### Response example
+
+```plain
+Array
+(
+    [Content-Type] => Array
+        (
+            [0] => application/json; charset=utf-8
+        )
+
+    [Date] => Array
+        (
+            [0] => Sun, 19 May 2019 14:16:36 GMT
+        )
+    // ...	
+```

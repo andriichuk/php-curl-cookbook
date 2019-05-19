@@ -17,6 +17,6 @@ $response = $httpClient->get(
     ]
 );
 
-print_r(
+echo(
     $response->getBody()->getContents()
 );
