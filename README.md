@@ -8,9 +8,9 @@ PHP [Guzzle](http://docs.guzzlephp.org/en/stable/overview.html) library - wrappe
 
 For testing requests we will use the excellent services [httpbin.org](https://httpbin.org/) and [Postman Echo](https://docs.postman-echo.com).
 
-## Request methods
+## HTTP Request methods
 
-### GET Method
+### Send HTTP request using GET method
 
 #### Bash
 
@@ -394,3 +394,69 @@ echo(
 ```json
 {"args":{},"data":"","files":{},"form":{"foo":"bar","baz":"biz"},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","content-length":"15","content-type":"application/x-www-form-urlencoded","user-agent":"GuzzleHttp/6.3.3 curl/7.64.0 PHP/7.3.5-1+ubuntu19.04.1+deb.sury.org+1","x-forwarded-port":"443"},"json":{"foo":"bar","baz":"biz"},"url":"https://postman-echo.com/delete"}
 ```
+
+## Headers
+
+### Send custom request headers
+
+#### Bash
+
+```bash
+curl --request GET "https://postman-echo.com/headers" --header "foo: bar" --header "baz: biz"
+```
+
+#### PHP CURL extension
+
+```php
+$curlHandler = curl_init();
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://postman-echo.com/headers',
+    CURLOPT_RETURNTRANSFER => true,
+
+    /**
+     * Specify request headers
+     */
+    CURLOPT_HTTPHEADER => [
+        'foo: bar',
+        'baz: biz',
+    ]
+]);
+
+$pageContent = curl_exec($curlHandler);
+
+curl_close($curlHandler);
+
+echo($pageContent);
+```
+
+#### PHP Guzzle library
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+
+$httpClient = new Client();
+
+$response = $httpClient->get(
+    'https://postman-echo.com/headers',
+    [
+        RequestOptions::HEADERS => [
+            'foo' => 'bar',
+            'baz' => 'biz',
+        ],
+    ]
+);
+
+print_r(
+    $response->getBody()->getContents()
+);
+```
+
+#### Response example
+
+```json
+{"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","baz":"biz","foo":"bar","user-agent":"GuzzleHttp/6.3.3 curl/7.64.0 PHP/7.3.5-1+ubuntu19.04.1+deb.sury.org+1","x-forwarded-port":"443"}}
+```
+
+
