@@ -4,8 +4,6 @@ $curlHandler = curl_init();
 
 curl_setopt_array($curlHandler, [
     CURLOPT_URL => 'https://postman-echo.com/patch',
-    CURLOPT_CONNECTTIMEOUT => 10,
-    CURLOPT_TIMEOUT => 10,
     CURLOPT_RETURNTRANSFER => true,
 
     /**

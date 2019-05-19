@@ -15,7 +15,7 @@ For testing requests we will use the excellent services [httpbin.org](https://ht
 #### Bash
 
 ```bash
-curl --request GET "https://postman-echo.com/get?foo=bar" --max-time 10
+curl --request GET "https://postman-echo.com/get?foo=bar"
 ```
 
 #### PHP CURL extension
@@ -25,8 +25,6 @@ $curlHandler = curl_init();
 
 curl_setopt_array($curlHandler, [
     CURLOPT_URL => 'https://postman-echo.com/get?foo=bar',
-    CURLOPT_CONNECTTIMEOUT => 10,
-    CURLOPT_TIMEOUT => 10,
     CURLOPT_RETURNTRANSFER => true,
 ]);
 
@@ -42,10 +40,7 @@ echo($response);
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 
-$httpClient = new Client([
-    RequestOptions::TIMEOUT => 10.0,
-    RequestOptions::CONNECT_TIMEOUT => 10.0,
-]);
+$httpClient = new Client();
 
 $response = $httpClient->get(
     'https://postman-echo.com/get',
@@ -72,7 +67,7 @@ echo(
 #### Bash
 
 ```bash
-curl --request POST "https://postman-echo.com/post" --data "POST raw request content" --max-time 10
+curl --request POST "https://postman-echo.com/post" --data "POST raw request content"
 ```
 
 #### PHP CURL extension
@@ -82,8 +77,6 @@ $curlHandler = curl_init();
 
 curl_setopt_array($curlHandler, [
     CURLOPT_URL => 'https://postman-echo.com/post',
-    CURLOPT_CONNECTTIMEOUT => 10,
-    CURLOPT_TIMEOUT => 10,
     CURLOPT_RETURNTRANSFER => true,
 
     /**
@@ -111,10 +104,7 @@ echo($response);
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 
-$httpClient = new Client([
-    RequestOptions::TIMEOUT => 10.0,
-    RequestOptions::CONNECT_TIMEOUT => 10.0,
-]);
+$httpClient = new Client();
 
 $response = $httpClient->post(
     'https://postman-echo.com/post',
@@ -142,7 +132,7 @@ echo(
 #### Bash
 
 ```bash
-curl --request POST "https://postman-echo.com/post" --data "foo=bar&baz=biz" --max-time 10
+curl --request POST "https://postman-echo.com/post" --data "foo=bar&baz=biz"
 ```
 
 #### PHP CURL extension
@@ -152,8 +142,6 @@ $curlHandler = curl_init();
 
 curl_setopt_array($curlHandler, [
     CURLOPT_URL => 'https://postman-echo.com/post',
-    CURLOPT_CONNECTTIMEOUT => 10,
-    CURLOPT_TIMEOUT => 10,
     CURLOPT_RETURNTRANSFER => true,
 
     /**
@@ -183,10 +171,7 @@ echo($response);
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 
-$httpClient = new Client([
-    RequestOptions::TIMEOUT => 10.0,
-    RequestOptions::CONNECT_TIMEOUT => 10.0,
-]);
+$httpClient = new Client();
 
 $response = $httpClient->post(
     'https://postman-echo.com/post',
@@ -214,7 +199,7 @@ echo(
 #### Bash
 
 ```bash
-curl --request PUT "https://postman-echo.com/put" --data "foo=bar&baz=biz" --max-time 10
+curl --request PUT "https://postman-echo.com/put" --data "foo=bar&baz=biz"
 ```
 
 #### PHP CURL extension
@@ -224,8 +209,6 @@ $curlHandler = curl_init();
 
 curl_setopt_array($curlHandler, [
     CURLOPT_URL => 'https://postman-echo.com/put',
-    CURLOPT_CONNECTTIMEOUT => 10,
-    CURLOPT_TIMEOUT => 10,
     CURLOPT_RETURNTRANSFER => true,
 
     /**
@@ -255,10 +238,7 @@ echo($pageContent);
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 
-$httpClient = new Client([
-    RequestOptions::TIMEOUT => 10.0,
-    RequestOptions::CONNECT_TIMEOUT => 10.0,
-]);
+$httpClient = new Client();
 
 $response = $httpClient->put(
     'https://postman-echo.com/put',
@@ -286,7 +266,7 @@ echo(
 #### Bash
 
 ```bash
-curl --request PATCH "https://postman-echo.com/patch" --data "foo=bar&baz=biz" --max-time 10
+curl --request PATCH "https://postman-echo.com/patch" --data "foo=bar&baz=biz"
 ```
 
 #### PHP CURL extension
@@ -296,8 +276,6 @@ $curlHandler = curl_init();
 
 curl_setopt_array($curlHandler, [
     CURLOPT_URL => 'https://postman-echo.com/patch',
-    CURLOPT_CONNECTTIMEOUT => 10,
-    CURLOPT_TIMEOUT => 10,
     CURLOPT_RETURNTRANSFER => true,
 
     /**
@@ -327,10 +305,7 @@ echo($pageContent);
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 
-$httpClient = new Client([
-    RequestOptions::TIMEOUT => 10.0,
-    RequestOptions::CONNECT_TIMEOUT => 10.0,
-]);
+$httpClient = new Client();
 
 $response = $httpClient->patch(
     'https://postman-echo.com/patch',
@@ -368,8 +343,6 @@ $curlHandler = curl_init();
 
 curl_setopt_array($curlHandler, [
     CURLOPT_URL => 'https://postman-echo.com/delete',
-    CURLOPT_CONNECTTIMEOUT => 10,
-    CURLOPT_TIMEOUT => 10,
     CURLOPT_RETURNTRANSFER => true,
 
     /**
@@ -399,10 +372,7 @@ echo($pageContent);
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 
-$httpClient = new Client([
-    RequestOptions::TIMEOUT => 10.0,
-    RequestOptions::CONNECT_TIMEOUT => 10.0,
-]);
+$httpClient = new Client();
 
 $response = $httpClient->delete(
     'https://postman-echo.com/delete',

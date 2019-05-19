@@ -5,10 +5,7 @@ require_once 'vendor/autoload.php';
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 
-$httpClient = new Client([
-    RequestOptions::TIMEOUT => 10.0,
-    RequestOptions::CONNECT_TIMEOUT => 10.0,
-]);
+$httpClient = new Client();
 
 $response = $httpClient->put(
     'https://postman-echo.com/put',
