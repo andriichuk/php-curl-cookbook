@@ -659,3 +659,64 @@ $httpClient->get(
 // ...
 ```
 
+### Output debug info to file
+
+#### Bash
+
+```bash
+curl --request GET "https://postman-echo.com/get?foo=bar" --verbose --silent > debug.log 2>&1
+```
+
+#### PHP CURL extension
+
+```php
+$curlHandler = curl_init();
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://postman-echo.com/get?foo=bar',
+    CURLOPT_RETURNTRANSFER => true,
+
+    /**
+     * Specify debug option.
+     */
+    CURLOPT_VERBOSE => true,
+
+    /**
+     * Specify log file.
+     * Make sure that the folder is writable.
+     */
+    CURLOPT_STDERR => fopen('./curl.log', 'w+'),
+]);
+
+curl_exec($curlHandler);
+
+curl_close($curlHandler);
+```
+
+
+#### PHP Guzzle library
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+
+$httpClient = new Client();
+
+$httpClient->get(
+    'https://postman-echo.com/get?foo=bar',
+    [
+        RequestOptions::DEBUG => fopen('./guzzle.log', 'w+'),
+    ]
+);
+```
+
+#### Log file content
+
+```plain
+*   Trying 35.153.115.14...
+* TCP_NODELAY set
+* Expire in 149999 ms for 3 (transfer 0x55b754f97120)
+* Expire in 200 ms for 4 (transfer 0x55b754f97120)
+* Connected to postman-echo.com (35.153.115.14) port 443 (#0)
+// ...
+```
