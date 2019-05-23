@@ -12,13 +12,13 @@ For testing requests we will use the excellent services [httpbin.org](https://ht
 
 ### Send HTTP request using GET method
 
-#### Bash [example](https://github.com/andriichuk/curl-examples/blob/master/basic/01_Request_Methods/01_Get/console.sh)
+#### Bash [[example](https://github.com/andriichuk/curl-examples/blob/master/basic/01_Request_Methods/01_Get/console.sh)]
 
 ```bash
 curl --request GET "https://postman-echo.com/get?foo=bar"
 ```
 
-#### PHP CURL extension [example](https://github.com/andriichuk/curl-examples/blob/master/basic/01_Request_Methods/01_Get/curl-ext.php)
+#### PHP CURL extension [[example](https://github.com/andriichuk/curl-examples/blob/master/basic/01_Request_Methods/01_Get/curl-ext.php)]
 
 ```php
 $curlHandler = curl_init();
@@ -34,7 +34,7 @@ curl_close($curlHandler);
 echo($response);
 ```
 
-#### PHP Guzzle library [example](https://github.com/andriichuk/curl-examples/blob/master/basic/01_Request_Methods/01_Get/guzzle-lib.php)
+#### PHP Guzzle library [[example](https://github.com/andriichuk/curl-examples/blob/master/basic/01_Request_Methods/01_Get/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
