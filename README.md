@@ -748,8 +748,7 @@ curl_setopt_array($curlHandler, [
 ]);
 
 $content = curl_exec($curlHandler);
-
-curl_getinfo($curlHandler);
+$curlInfo = curl_getinfo($curlHandler);
 
 curl_close($curlHandler);
 
@@ -789,4 +788,50 @@ echo $response->getStatusCode();
   }, 
   "url": "https://httpbin.org/get"
 }
+```
+
+## Timeouts
+
+#### Bash
+
+```bash
+curl --request GET "https://httpbin.org/delay/5" --max-time 20 --connect-timeout 10
+```
+
+#### PHP CURL extension
+
+```php
+$curlHandler = curl_init();
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://httpbin.org/delay/5',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CONNECTTIMEOUT => 10,
+    CURLOPT_TIMEOUT => 20,
+]);
+
+$response = curl_exec($curlHandler);
+
+curl_close($curlHandler);
+
+print_r($response);
+```
+
+#### PHP Guzzle library
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+
+$httpClient = new Client();
+
+$response = $httpClient->get(
+    'https://httpbin.org/delay/5',
+    [
+        RequestOptions::CONNECT_TIMEOUT => 10,
+        RequestOptions::TIMEOUT => 20,
+    ]
+);
+
+print_r($response->getBody()->getContents());
 ```

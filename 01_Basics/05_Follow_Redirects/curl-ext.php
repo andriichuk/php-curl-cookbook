@@ -10,8 +10,7 @@ curl_setopt_array($curlHandler, [
 ]);
 
 $content = curl_exec($curlHandler);
-
-curl_getinfo($curlHandler);
+$curlInfo = curl_getinfo($curlHandler);
 
 curl_close($curlHandler);
 
