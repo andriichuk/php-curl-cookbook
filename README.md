@@ -806,11 +806,15 @@ echo $response->getStatusCode();
 
 #### Bash
 
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/06_Timeouts/console.sh)]
+
 ```bash
 curl --request GET "https://httpbin.org/delay/5" --max-time 20 --connect-timeout 10
 ```
 
 #### PHP CURL extension
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/06_Timeouts/curl-ext.php)]
 
 ```php
 $curlHandler = curl_init();
@@ -830,6 +834,8 @@ print_r($response);
 ```
 
 #### PHP Guzzle library
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/06_Timeouts/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
