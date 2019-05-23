@@ -14,7 +14,7 @@ For testing requests we will use the excellent services [httpbin.org](https://ht
 
 #### Bash 
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/basic/01_Request_Methods/01_Get/console.sh)]
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/01_Request_Methods/01_Get/console.sh)]
 
 ```bash
 curl --request GET "https://postman-echo.com/get?foo=bar"
@@ -22,7 +22,7 @@ curl --request GET "https://postman-echo.com/get?foo=bar"
 
 #### PHP CURL extension 
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/basic/01_Request_Methods/01_Get/curl-ext.php)]
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/01_Request_Methods/01_Get/curl-ext.php)]
 
 ```php
 $curlHandler = curl_init();
@@ -40,7 +40,7 @@ echo($response);
 
 #### PHP Guzzle library 
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/basic/01_Request_Methods/01_Get/guzzle-lib.php)]
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/01_Request_Methods/01_Get/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
@@ -614,11 +614,15 @@ Array
 
 #### Bash
 
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/04_Debug_Request/01_Output_Debug_Info_To_Stderr/console.sh)]
+
 ```bash
 curl --verbose --request GET "https://postman-echo.com/get?foo=bar"
 ```
 
 #### PHP CURL extension
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/04_Debug_Request/01_Output_Debug_Info_To_Stderr/curl-ext.php)]
 
 ```php
 $curlHandler = curl_init();
@@ -639,6 +643,8 @@ curl_close($curlHandler);
 ```
 
 #### PHP Guzzle library
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/04_Debug_Request/01_Output_Debug_Info_To_Stderr/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
@@ -669,11 +675,15 @@ $httpClient->get(
 
 #### Bash
 
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/04_Debug_Request/02_Output_Debug_Info_To_File/console.sh)]
+
 ```bash
 curl --request GET "https://postman-echo.com/get?foo=bar" --verbose --silent > debug.log 2>&1
 ```
 
 #### PHP CURL extension
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/04_Debug_Request/02_Output_Debug_Info_To_File/curl-ext.php)]
 
 ```php
 $curlHandler = curl_init();
@@ -701,6 +711,8 @@ curl_close($curlHandler);
 
 
 #### PHP Guzzle library
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/04_Debug_Request/02_Output_Debug_Info_To_File/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
