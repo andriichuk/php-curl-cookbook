@@ -72,11 +72,15 @@ echo(
 
 #### Bash
 
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/01_Request_Methods/02_Post_Raw_Data/console.sh)]
+
 ```bash
 curl --request POST "https://postman-echo.com/post" --data "POST raw request content"
 ```
 
 #### PHP CURL extension
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/01_Request_Methods/02_Post_Raw_Data/curl-ext.php)]
 
 ```php
 $curlHandler = curl_init();
@@ -104,6 +108,8 @@ echo($response);
 ```
 
 #### PHP Guzzle library
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/01_Request_Methods/02_Post_Raw_Data/guzzle-lib.php)]
 
 ```php
 
