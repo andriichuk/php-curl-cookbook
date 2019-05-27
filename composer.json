@@ -2,6 +2,7 @@
     "require": {
         "ext-curl": "*",
         "ext-mbstring": "*",
+        "ext-fileinfo": "*",
         "guzzlehttp/guzzle": "^6.3"
     }
 }

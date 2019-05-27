@@ -859,3 +859,97 @@ $response = $httpClient->get(
 
 print_r($response->getBody()->getContents());
 ```
+
+## Files
+
+### Upload file
+
+#### Bash
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/01_Files/01_Upload/console.sh)]
+
+```bash
+# format: curl --form '[request_field_name]=@[absolute_path_to_file]' [upload_url]
+curl --form 'file=@/home/serge/curl-examples/02_Advanced/01_Files/01_Upload/resource/file.txt' https://postman-echo.com/post
+```
+
+#### PHP CURL extension
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/01_Files/01_Upload/curl-ext.php)]
+
+```php
+$uploadFilePath = __DIR__ . '/resource/file.txt';
+
+if (!file_exists($uploadFilePath)) {
+    throw new Exception('File not found: ' . $uploadFilePath);
+}
+
+/**
+ * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Complete_list_of_MIME_types List of MIME types
+ */
+$uploadFileMimeType = mime_content_type($uploadFilePath);
+$uploadFilePostKey = 'file';
+
+$uploadFile = new CURLFile(
+    $uploadFilePath,
+    $uploadFileMimeType,
+    $uploadFilePostKey
+);
+
+$curlHandler = curl_init();
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://postman-echo.com/post',
+    CURLOPT_RETURNTRANSFER => true,
+
+    /**
+     * Specify POST method
+     */
+    CURLOPT_POST => true,
+
+    /**
+     * Specify array of form fields
+     */
+    CURLOPT_POSTFIELDS => [
+        $uploadFilePostKey => $uploadFile,
+    ],
+]);
+
+$response = curl_exec($curlHandler);
+
+curl_close($curlHandler);
+
+echo($response);
+```
+
+#### PHP Guzzle library
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/01_Files/01_Upload/guzzle-lib.php)]
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+
+$httpClient = new Client();
+
+$response = $httpClient->post(
+    'https://postman-echo.com/post',
+    [
+        RequestOptions::MULTIPART => [
+            [
+                'name' => 'file',
+                'contents' => new SplFileObject(__DIR__ . '/resource/file.txt', 'r'),
+                'filename' => 'file',
+            ]
+        ],
+    ]
+);
+
+echo($response->getBody()->getContents());
+```
+
+#### Response example
+
+```json
+{"args":{},"data":{},"files":{"file":"data:application/octet-stream;base64,TG9yZW0gaXBzdW0gZG9sb3Igc2l0I ...
+```
