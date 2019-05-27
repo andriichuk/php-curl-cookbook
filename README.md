@@ -884,9 +884,6 @@ if (!file_exists($uploadFilePath)) {
     throw new Exception('File not found: ' . $uploadFilePath);
 }
 
-/**
- * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Complete_list_of_MIME_types List of MIME types
- */
 $uploadFileMimeType = mime_content_type($uploadFilePath);
 $uploadFilePostKey = 'file';
 
@@ -952,4 +949,107 @@ echo($response->getBody()->getContents());
 
 ```json
 {"args":{},"data":{},"files":{"file":"data:application/octet-stream;base64,TG9yZW0gaXBzdW0gZG9sb3Igc2l0I ...
+```
+
+### Upload multiple files
+
+#### Bash
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/01_Files/02_Upload_Multiple/console.sh)]
+
+```bash
+curl --form 'text_file=@/home/serge/startups/CurlTutorial/source-code/02_Advanced/01_Files/02_Upload_Multiple/resource/file.txt' \
+--form 'image_file=@/home/serge/startups/CurlTutorial/source-code/02_Advanced/01_Files/02_Upload_Multiple/resource/github-icon.png' \
+https://postman-echo.com/post
+```
+
+#### PHP CURL extension
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/01_Files/02_Upload_Multiple/curl-ext.php)]
+
+```php
+$localFiles = [
+    'text_file' => __DIR__ . '/resource/file.txt',
+    'image_file' => __DIR__ . '/resource/github-icon.png',
+];
+
+$uploadFiles = [];
+
+foreach ($localFiles as $filePostKey => $uploadFilePath) {
+    if (!file_exists($uploadFilePath)) {
+        throw new Exception('File not found: ' . $uploadFilePath);
+    }
+
+    $uploadFileMimeType = mime_content_type($uploadFilePath);
+
+    $uploadFiles[$filePostKey] = new CURLFile($uploadFilePath, $uploadFileMimeType, $filePostKey);
+}
+
+$curlHandler = curl_init();
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://postman-echo.com/post',
+    CURLOPT_RETURNTRANSFER => true,
+
+    /**
+     * Specify POST method
+     */
+    CURLOPT_POST => true,
+
+    /**
+     * Specify array of form fields
+     */
+    CURLOPT_POSTFIELDS => $uploadFiles,
+]);
+
+$response = curl_exec($curlHandler);
+
+curl_close($curlHandler);
+
+echo($response);
+```
+
+#### PHP Guzzle library
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/002_Advanced/01_Files/02_Upload_Multiple/guzzle-lib.php)]
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+
+$localFiles = [
+    'text_file' => __DIR__ . '/resource/file.txt',
+    'image_file' => __DIR__ . '/resource/github-icon.png',
+];
+
+$uploadFiles = [];
+
+foreach ($localFiles as $filePostKey => $uploadFilePath) {
+    if (!file_exists($uploadFilePath)) {
+        throw new Exception('File not found: ' . $uploadFilePath);
+    }
+
+    array_push($uploadFiles, [
+        'name' => $filePostKey,
+        'contents' => new SplFileObject($uploadFilePath, 'r'),
+        'filename' => $filePostKey,
+    ]);
+}
+
+$httpClient = new Client();
+
+$response = $httpClient->post(
+    'https://postman-echo.com/post',
+    [
+        RequestOptions::MULTIPART => $uploadFiles,
+    ]
+);
+
+echo($response->getBody()->getContents());
+```
+
+### Response example
+
+```json
+{"args":{},"data":{},"files":{"text_file":"data:application/octet-stream;base64,TG9yZW0gaXBzdW0gZG9sb3Ig ...", "image_file":"data:application/octet-stream;base64,iVBORw0KGgoAAAANSUhEUgAAANAAAADQC ...
 ```
