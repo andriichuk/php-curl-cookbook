@@ -756,7 +756,7 @@ curl --verbose --request GET "https://httpbin.org/delay/5" --max-time 3 --connec
 
 #### PHP CURL extension
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/04_Debug_Request/02_Output_Debug_Info_To_File/curl-ext.php)]
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/05_Error_Catching/curl-ext.php)]
 
 ```php
 $curlHandler = curl_init();
@@ -787,7 +787,7 @@ curl_close($curlHandler);
 
 #### PHP Guzzle library
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/04_Debug_Request/02_Output_Debug_Info_To_File/guzzle-lib.php)]
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/05_Error_Catching/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
