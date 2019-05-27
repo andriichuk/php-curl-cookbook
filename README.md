@@ -715,7 +715,6 @@ curl_exec($curlHandler);
 curl_close($curlHandler);
 ```
 
-
 #### PHP Guzzle library
 
 [[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/04_Debug_Request/02_Output_Debug_Info_To_File/guzzle-lib.php)]
@@ -743,6 +742,86 @@ $httpClient->get(
 * Expire in 200 ms for 4 (transfer 0x55b754f97120)
 * Connected to postman-echo.com (35.153.115.14) port 443 (#0)
 // ...
+```
+
+## Error Catching
+
+#### Bash
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/05_Error_Catching/console.sh)]
+
+```bash
+curl --verbose --request GET "https://httpbin.org/delay/5" --max-time 3 --connect-timeout 2
+```
+
+#### PHP CURL extension
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/04_Debug_Request/02_Output_Debug_Info_To_File/curl-ext.php)]
+
+```php
+$curlHandler = curl_init();
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://httpbin.org/delay/5',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CONNECTTIMEOUT => 2,
+    CURLOPT_TIMEOUT => 3,
+]);
+
+$response = curl_exec($curlHandler);
+$statusCode = curl_getinfo($curlHandler, CURLINFO_HTTP_CODE);
+
+if ($statusCode > 300) {
+    print_r('Redirection or Error response with status: ' . $statusCode);
+}
+
+if (curl_errno($curlHandler) !== CURLE_OK) {
+    print_r([
+        'error_code' => curl_errno($curlHandler),
+        'error_message' => curl_error($curlHandler),
+    ]);
+}
+
+curl_close($curlHandler);
+```
+
+#### PHP Guzzle library
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/04_Debug_Request/02_Output_Debug_Info_To_File/guzzle-lib.php)]
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Exception\GuzzleException;
+
+$httpClient = new Client();
+
+try {
+    $response = $httpClient->get(
+        'https://httpbin.org/dedlay/5',
+        [
+            RequestOptions::CONNECT_TIMEOUT => 2,
+            RequestOptions::TIMEOUT => 3,
+        ]
+    );
+
+    print_r($response->getBody()->getContents());
+} catch (GuzzleException $exception) {
+    print_r([
+        'code' => $exception->getCode(),
+        'message' => $exception->getMessage(),
+    ]);
+}
+```
+
+#### Response example
+
+```plain
+Array
+(
+    [error_code] => 28
+    [error_message] => Operation timed out after 3001 milliseconds with 0 bytes received
+)
 ```
 
 ## Follow redirects

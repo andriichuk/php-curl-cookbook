@@ -17,6 +17,4 @@ $response = $httpClient->post(
     ]
 );
 
-echo(
-    $response->getBody()->getContents()
-);
+echo($response->getBody()->getContents());
