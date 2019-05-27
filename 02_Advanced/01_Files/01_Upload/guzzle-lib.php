@@ -14,7 +14,7 @@ $response = $httpClient->post(
             [
                 'name' => 'file',
                 'contents' => new SplFileObject(__DIR__ . '/resource/file.txt', 'r'),
-                'filename' => 'file',
+                'filename' => 'file.txt',
             ]
         ],
     ]

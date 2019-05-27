@@ -1090,7 +1090,7 @@ echo($response);
 
 #### PHP Guzzle library
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/002_Advanced/01_Files/02_Upload_Multiple/guzzle-lib.php)]
+[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/01_Files/02_Upload_Multiple/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
@@ -1131,4 +1131,67 @@ echo($response->getBody()->getContents());
 
 ```json
 {"args":{},"data":{},"files":{"text_file":"data:application/octet-stream;base64,TG9yZW0gaXBzdW0gZG9sb3Ig ...", "image_file":"data:application/octet-stream;base64,iVBORw0KGgoAAAANSUhEUgAAANAAAADQC ...
+```
+
+### Download file
+
+#### Bash
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/01_Files/03_Download/console.sh)]
+
+```bash
+curl https://httpbin.org/image/jpeg --output /home/serge/curl-examples/02_Advanced/01_Files/03_Download/resource/image.jpeg
+```
+
+#### PHP CURL extension
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/01_Files/03_Download/curl-ext.php)]
+
+```php
+$imageFilePath = __DIR__ . '/resource/image.jpeg';
+
+$curlHandler = curl_init();
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://httpbin.org/image/jpeg',
+    CURLOPT_FILE => fopen($imageFilePath, 'w+')
+]);
+
+curl_exec($curlHandler);
+
+if (curl_errno($curlHandler) === CURLE_OK) {
+    echo 'The image has been successfully downloaded: ' . $imageFilePath;
+}
+
+curl_close($curlHandler);
+```
+
+#### PHP Guzzle library
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/01_Files/03_Download/guzzle-lib.php)]
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+
+$imageFilePath = __DIR__ . '/resource/image.jpeg';
+$imageFileResource = fopen($imageFilePath, 'w+');
+
+$httpClient = new Client();
+$response = $httpClient->get(
+    'https://httpbin.org/image/jpeg',
+    [
+        RequestOptions::SINK => $imageFileResource,
+    ]
+);
+
+if ($response->getStatusCode() === 200) {
+    echo 'The image has been successfully downloaded: ' . $imageFilePath;
+}
+```
+
+#### Response example
+
+```json
+The image has been successfully downloaded: /home/serge/curl-examples/02_Advanced/01_Files/03_Download/resource/image.jpeg
 ```
