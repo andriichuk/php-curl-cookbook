@@ -1,12 +1,39 @@
-# List of commonly used cases with CURL library
+# List of commonly used cases with PHP cURL extension
 
-Library [Home Page](https://curl.haxx.se/) and [Wiki Page](https://ec.haxx.se/).
+cURL library [Home Page](https://curl.haxx.se/) and [Wiki Page](https://ec.haxx.se/).
 
 PHP [Extension Page](http://docs.php.net/manual/en/book.curl.php) and [List Of Options](http://docs.php.net/manual/en/function.curl-setopt.php).
 
 PHP [Guzzle](http://docs.guzzlephp.org/en/stable/overview.html) library - wrapper over PHP CURL extension.
 
 For testing requests we will use the excellent services [httpbin.org](https://httpbin.org/) and [Postman Echo](https://docs.postman-echo.com).
+
+## Requirements
+
+* PHP >= 5.5
+* cURL PHP Extension
+* Mbstring PHP Extension
+* Fileinfo PHP Extension
+
+## Installation
+
+Download repository
+
+```bash
+git clone https://github.com/andriichuk/curl-examples.git
+```
+
+Go to the directory
+
+```bash
+cd ./curl-examples
+```
+
+Install composer dependencies
+
+```bash
+composer install
+```
 
 ## HTTP Request methods
 
