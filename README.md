@@ -49,8 +49,8 @@ php ./01_Basics/01_Request_Methods/01_Get/curl-ext.php
 
 ## Todo
 
+- [x] HTTP version
 - [ ] Cache control
-- [ ] HTTP version
 - [ ] cURL version
 - [ ] User agent
 - [ ] HTTP Referer
@@ -998,6 +998,72 @@ $response = $httpClient->get(
 );
 
 print_r($response->getBody()->getContents());
+```
+
+### Set HTTP version
+
+#### Bash
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/08_Http_Version/console.sh)]
+
+```bash
+# See https://ec.haxx.se/http-versions.html
+
+curl --request GET "https://httpbin.org/get" --http2
+```
+
+#### PHP CURL extension
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/08_Http_Version/curl-ext.php)]
+
+```php
+$curlHandler = curl_init();
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://httpbin.org/get',
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2_0,
+]);
+
+curl_exec($curlHandler);
+$info = curl_getinfo($curlHandler);
+curl_close($curlHandler);
+
+print_r($info);
+```
+
+#### PHP Guzzle library
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/08_Http_Version/guzzle-lib.php)]
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+use GuzzleHttp\TransferStats;
+
+$httpClient = new Client();
+
+$response = $httpClient->get(
+    'https://httpbin.org/get',
+    [
+        RequestOptions::VERSION => 2.0,
+        RequestOptions::ON_STATS => function (TransferStats $stats) {
+            print_r($stats->getHandlerStats());
+        }
+    ]
+);
+```
+
+#### Response example
+
+```plain
+Array
+(
+    [url] => https://httpbin.org/get
+    ...
+    [http_version] => 2
+    [protocol] => 2
+    ...
+)
 ```
 
 ## Files
