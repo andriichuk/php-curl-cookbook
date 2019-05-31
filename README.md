@@ -35,6 +35,40 @@ Install composer dependencies
 composer install
 ```
 
+Run BASH example
+
+```bash
+bash ./01_Basics/01_Request_Methods/01_Get/console.sh
+```
+
+Run PHP example
+
+```bash
+php ./01_Basics/01_Request_Methods/01_Get/curl-ext.php
+```
+
+## Todo
+
+- [ ] Cache control
+- [ ] HTTP version
+- [ ] cURL version
+- [ ] User agent
+- [ ] HTTP Referer
+- [ ] HTTP methods (HEAD, CONNECT, OPTIONS, TRACE)
+- [ ] Cookies
+- [ ] Proxy
+- [ ] User agent
+- [ ] Transfer progress
+- [ ] Upload array of files in one POST field
+- [ ] Upload/Download large files
+- [ ] FTP transfer
+- [ ] All types of Auth
+- [ ] Multiple cURL handlers
+- [ ] SSL certificates
+- [ ] Streams
+- [ ] Best practices
+
+
 ## HTTP Request methods
 
 ### Send HTTP request using GET method
