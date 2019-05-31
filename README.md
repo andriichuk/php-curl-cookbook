@@ -32,6 +32,7 @@ For testing requests we will use the excellent services [httpbin.org](https://ht
     * [Timeouts](#timeouts)
     * [Set HTTP version](#set-http-version)
     * [Get cURL version](#get-curl-version)
+    * [Set User agent](#set-user-agent)
 * [Advanced](#advanced)
     * [Files](#files)
         * [Upload file](#upload-file)
@@ -1104,6 +1105,63 @@ Protocols: dict file ftp ftps gopher http https imap imaps ldap ldaps pop3 pop3s
 Features: AsynchDNS IDN IPv6 Largefile GSS-API Kerberos SPNEGO NTLM NTLM_WB SSL libz TLS-SRP HTTP2 UnixSockets HTTPS-proxy PSL
 ```
 
+### Set User agent
+
+#### Bash
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/10_Set_User_Agent/console.sh)]
+
+```bash
+curl --request GET "https://httpbin.org/get" --user-agent 'Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A537a Safari/419.3'
+```
+
+#### PHP CURL extension
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/10_Set_User_Agent/curl-ext.php)]
+
+```php
+$curlHandler = curl_init();
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://postman-echo.com/get',
+    CURLOPT_USERAGENT => 'Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A537a Safari/419.3',
+    
+    /**
+     * OR set header
+      CURLOPT_HTTPHEADER => [
+        'User-Agent: Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A537a Safari/419.3',
+    ]*/
+]);
+
+$response = curl_exec($curlHandler);
+
+curl_close($curlHandler);
+
+print_r($response);
+```
+
+#### PHP Guzzle library
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/10_Set_User_Agent/guzzle-lib.php)]
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+
+$httpClient = new Client();
+
+$response = $httpClient->get(
+    'https://httpbin.org/get',
+    [
+        RequestOptions::HEADERS => [
+            'User-Agent' => 'Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A537a Safari/419.3',
+        ]
+    ]
+);
+
+print_r($response->getBody()->getContents());
+```
+
 # Advanced
 
 ## Files
@@ -1367,8 +1425,8 @@ The image has been successfully downloaded: /home/serge/curl-examples/02_Advance
 
 - [x] Set HTTP version
 - [x] Get cURL version
+- [x] Set User agent
 - [ ] Cache control
-- [ ] User agent
 - [ ] HTTP Referer
 - [ ] HTTP methods (HEAD, CONNECT, OPTIONS, TRACE)
 - [ ] Cookies
