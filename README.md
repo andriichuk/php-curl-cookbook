@@ -9,33 +9,34 @@ PHP [Guzzle](http://docs.guzzlephp.org/en/stable/overview.html) library - wrappe
 For testing requests we will use the excellent services [httpbin.org](https://httpbin.org/) and [Postman Echo](https://docs.postman-echo.com).
 
 # Table of Contents
+
 * [Requirements](#requirements)
 * [Installation](#installation)
 * [Basics](#basics)
-    * HTTP Request methods
-    	* Send HTTP request using GET method
-    	* POST raw request
-    	* POST form data
-    	* PUT method
-    	* PATCH method
-    	* DELETE method
-    * Headers
-        * Send custom request headers
-        * Get response headers
-    * Request stats
-    * Debug request
-        * Output debug info to STDERR
-        * Output debug info to file
-    * Error Catching
-    * Follow redirects
-    * Timeouts
-    * Set HTTP version
-    * Get cURL version
+    * [HTTP Request methods](#http-request-methods)
+    	* [Send HTTP request using GET method](#send-http-request-using-get-method)
+    	* [POST raw request](#post-raw-request)
+    	* [POST form data](#post-form-data)
+    	* [PUT method](#put-method)
+    	* [PATCH method](#patch-method)
+    	* [DELETE method](#delete-method)
+    * [Headers](#headers)
+        * [Send custom request headers](#send-custom-request-headers)
+        * [Get response headers](#get-response-headers)
+    * [Request stats](#request-stats)
+    * [Debug request](#debug-request)
+        * [Output debug info to STDERR](#output-debug-info-to-stderr)
+        * [Output debug info to file](#output-debug-info-to-file)
+    * [Error catching](#error-catching)
+    * [Follow redirects](#follow-redirects)
+    * [Timeouts](#timeouts)
+    * [Set HTTP version](#set-http-version)
+    * [Get cURL version](#get-curl-version)
 * [Advanced](#advanced)
     * [Files](#files)
         * [Upload file](#upload-file)
-        * Upload multiple files
-        * Download file
+        * [Upload multiple files](#upload-multiple-files)
+        * [Download file](#download-file)
 * [Todo](#todo)
 
 ## Requirements
