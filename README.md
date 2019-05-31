@@ -8,6 +8,36 @@ PHP [Guzzle](http://docs.guzzlephp.org/en/stable/overview.html) library - wrappe
 
 For testing requests we will use the excellent services [httpbin.org](https://httpbin.org/) and [Postman Echo](https://docs.postman-echo.com).
 
+# Table of Contents
+* [Requirements](#requirements)
+* [Installation](#installation)
+* [Basics](#basics)
+    * HTTP Request methods
+    	* Send HTTP request using GET method
+    	* POST raw request
+    	* POST form data
+    	* PUT method
+    	* PATCH method
+    	* DELETE method
+    * Headers
+        * Send custom request headers
+        * Get response headers
+    * Request stats
+    * Debug request
+        * Output debug info to STDERR
+        * Output debug info to file
+    * Error Catching
+    * Follow redirects
+    * Timeouts
+    * Set HTTP version
+    * Get cURL version
+* [Advanced](#advanced)
+    * [Files](#files)
+        * [Upload file](#upload-file)
+        * Upload multiple files
+        * Download file
+* [Todo](#todo)
+
 ## Requirements
 
 * PHP >= 5.5
@@ -47,27 +77,7 @@ Run PHP example
 php ./01_Basics/01_Request_Methods/01_Get/curl-ext.php
 ```
 
-## Todo
-
-- [x] Set HTTP version
-- [x] Get cURL version
-- [ ] Cache control
-- [ ] User agent
-- [ ] HTTP Referer
-- [ ] HTTP methods (HEAD, CONNECT, OPTIONS, TRACE)
-- [ ] Cookies
-- [ ] Proxy
-- [ ] User agent
-- [ ] Transfer progress
-- [ ] Upload array of files in one POST field
-- [ ] Upload/Download large files
-- [ ] FTP transfer
-- [ ] All types of Auth
-- [ ] Multiple cURL handlers
-- [ ] SSL certificates
-- [ ] Streams
-- [ ] Best practices
-
+# Basics
 
 ## HTTP Request methods
 
@@ -675,7 +685,7 @@ Array
     // ...
 ```
 
-## Debug Request
+## Debug request
 
 ### Output debug info to STDERR
 
@@ -805,7 +815,7 @@ $httpClient->get(
 // ...
 ```
 
-## Error Catching
+## Error catching
 
 #### Bash
 
@@ -1066,7 +1076,7 @@ Array
 )
 ```
 
-### Set HTTP version
+### Get cURL version
 
 #### Bash
 
@@ -1092,6 +1102,8 @@ Release-Date: 2019-02-06
 Protocols: dict file ftp ftps gopher http https imap imaps ldap ldaps pop3 pop3s rtmp rtsp scp sftp smb smbs smtp smtps telnet tftp 
 Features: AsynchDNS IDN IPv6 Largefile GSS-API Kerberos SPNEGO NTLM NTLM_WB SSL libz TLS-SRP HTTP2 UnixSockets HTTPS-proxy PSL
 ```
+
+# Advanced
 
 ## Files
 
@@ -1349,3 +1361,24 @@ if ($response->getStatusCode() === 200) {
 ```json
 The image has been successfully downloaded: /home/serge/curl-examples/02_Advanced/01_Files/03_Download/resource/image.jpeg
 ```
+
+## Todo
+
+- [x] Set HTTP version
+- [x] Get cURL version
+- [ ] Cache control
+- [ ] User agent
+- [ ] HTTP Referer
+- [ ] HTTP methods (HEAD, CONNECT, OPTIONS, TRACE)
+- [ ] Cookies
+- [ ] Proxy
+- [ ] User agent
+- [ ] Transfer progress
+- [ ] Upload array of files in one POST field
+- [ ] Upload/Download large files
+- [ ] FTP transfer
+- [ ] All types of Auth
+- [ ] Multiple cURL handlers
+- [ ] SSL certificates
+- [ ] Streams
+- [ ] Best practices
