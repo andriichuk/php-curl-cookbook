@@ -49,9 +49,9 @@ php ./01_Basics/01_Request_Methods/01_Get/curl-ext.php
 
 ## Todo
 
-- [x] HTTP version
+- [x] Set HTTP version
+- [x] Get cURL version
 - [ ] Cache control
-- [ ] cURL version
 - [ ] User agent
 - [ ] HTTP Referer
 - [ ] HTTP methods (HEAD, CONNECT, OPTIONS, TRACE)
@@ -1004,7 +1004,7 @@ print_r($response->getBody()->getContents());
 
 #### Bash
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/08_Http_Version/console.sh)]
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/08_Set_Http_Version/console.sh)]
 
 ```bash
 # See https://ec.haxx.se/http-versions.html
@@ -1014,7 +1014,7 @@ curl --request GET "https://httpbin.org/get" --http2
 
 #### PHP CURL extension
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/08_Http_Version/curl-ext.php)]
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/08_Set_Http_Version/curl-ext.php)]
 
 ```php
 $curlHandler = curl_init();
@@ -1033,7 +1033,7 @@ print_r($info);
 
 #### PHP Guzzle library
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/08_Http_Version/guzzle-lib.php)]
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/08_Set_Http_Version/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
@@ -1064,6 +1064,33 @@ Array
     [protocol] => 2
     ...
 )
+```
+
+### Set HTTP version
+
+#### Bash
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/09_Get_Curl_Version/console.sh)]
+
+```bash
+curl --version
+```
+
+#### PHP CURL extension and Guzzle library
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/09_Get_Curl_Version/curl-ext.php)]
+
+```php
+print_r(curl_version());
+```
+
+#### Response example
+
+```plain
+curl 7.64.0 (x86_64-pc-linux-gnu) libcurl/7.64.0 OpenSSL/1.1.1c zlib/1.2.11 libidn2/2.0.5 libpsl/0.20.2 (+libidn2/2.0.5) libssh/0.8.6/openssl/zlib nghttp2/1.36.0 librtmp/2.3
+Release-Date: 2019-02-06
+Protocols: dict file ftp ftps gopher http https imap imaps ldap ldaps pop3 pop3s rtmp rtsp scp sftp smb smbs smtp smtps telnet tftp 
+Features: AsynchDNS IDN IPv6 Largefile GSS-API Kerberos SPNEGO NTLM NTLM_WB SSL libz TLS-SRP HTTP2 UnixSockets HTTPS-proxy PSL
 ```
 
 ## Files
