@@ -38,6 +38,8 @@ For testing requests we will use the excellent services [httpbin.org](https://ht
         * [Upload file](#upload-file)
         * [Upload multiple files](#upload-multiple-files)
         * [Download file](#download-file)
+    * [Auth](#auth)
+	* [Basic Auth](#basic-auth)
 * [Todo](#todo)
 
 ## Requirements
@@ -1416,8 +1418,90 @@ if ($response->getStatusCode() === 200) {
 
 #### Response example
 
-```json
+```plain
 The image has been successfully downloaded: /home/serge/curl-examples/02_Advanced/01_Files/03_Download/resource/image.jpeg
+```
+
+## Auth
+
+### Basic Auth
+
+#### Bash
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/02_Auth/01_Basic_Auth/console.sh)]
+
+```bash
+curl --user postman:password --request GET "https://postman-echo.com/basic-auth"
+```
+
+#### PHP CURL extension
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/02_Auth/01_Basic_Auth/curl-ext.php)]
+
+```php
+$curlHandler = curl_init();
+
+$userName = 'postman';
+$password = 'password';
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://postman-echo.com/basic-auth',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_USERPWD => $userName . ':' . $password,
+]);
+
+$response = curl_exec($curlHandler);
+curl_close($curlHandler);
+
+print_r('First example response: ' . $response . PHP_EOL);
+
+/**
+ * Or specify credentials in Authorization header
+ */
+
+$curlSecondHandler = curl_init();
+
+curl_setopt_array($curlSecondHandler, [
+    CURLOPT_URL => 'https://postman-echo.com/basic-auth',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_HTTPHEADER => [
+        'Authorization: Basic ' . base64_encode($userName . ':' . $password)
+    ],
+]);
+
+$response = curl_exec($curlSecondHandler);
+curl_close($curlSecondHandler);
+
+print_r('Second example response: ' . $response . PHP_EOL);
+```
+
+#### PHP Guzzle library
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/02_Auth/01_Basic_Auth/guzzle-lib.php)]
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+
+$userName = 'postman';
+$password = 'password';
+
+$httpClient = new Client();
+
+$response = $httpClient->get(
+    'https://postman-echo.com/basic-auth',
+    [
+        RequestOptions::AUTH => [$userName, $password]
+    ]
+);
+
+print_r($response->getBody()->getContents());
+```
+
+#### Response example
+
+```json
+{"authenticated":true}
 ```
 
 ## Todo
