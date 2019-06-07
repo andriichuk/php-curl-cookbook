@@ -41,6 +41,7 @@ For testing requests we will use the excellent services [httpbin.org](https://ht
     * [Auth](#auth)
         * [Basic Auth](#basic-auth)
         * [Digest Auth](#digest-auth)
+        * [Bearer Auth](#bearer-auth)
 * [Todo](#todo)
 
 ## Requirements
@@ -1567,6 +1568,74 @@ print_r($response->getBody()->getContents());
 {"authenticated":true}
 ```
 
+### Bearer Auth
+
+#### Bash
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/02_Auth/03_Bearer_Auth/console.sh)]
+
+```bash
+curl -X GET "https://httpbin.org/bearer" -H "Accept: application/json" -H "Authorization: Bearer your_token"
+```
+
+#### PHP CURL extension
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/02_Auth/03_Bearer_Auth/curl-ext.php)]
+
+```php
+$curlHandler = curl_init();
+
+$token = 'your_token';
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://httpbin.org/bearer',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_HTTPHEADER => [
+        'Accept: application/json',
+        'Authorization: Bearer ' . $token
+    ],
+]);
+
+$response = curl_exec($curlHandler);
+curl_close($curlHandler);
+
+print_r($response);
+```
+
+#### PHP Guzzle library
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/02_Auth/03_Bearer_Auth/guzzle-lib.php)]
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+
+$token = 'your_token';
+
+$httpClient = new Client();
+
+$response = $httpClient->get(
+    'https://httpbin.org/bearer',
+    [
+        RequestOptions::HEADERS => [
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $token,
+        ]
+    ]
+);
+
+print_r($response->getBody()->getContents());
+```
+
+#### Response
+
+```json
+{
+  "authenticated": true, 
+  "token": "your_token"
+}
+```
+
 ## Todo
 
 - [x] Set HTTP version
@@ -1586,4 +1655,5 @@ print_r($response->getBody()->getContents());
 - [ ] Multiple cURL handlers
 - [ ] SSL certificates
 - [ ] Streams
+- [ ] SOAP request
 - [ ] Best practices
