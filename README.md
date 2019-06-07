@@ -1646,7 +1646,6 @@ print_r($response->getBody()->getContents());
 - [ ] HTTP methods (HEAD, CONNECT, OPTIONS, TRACE)
 - [ ] Cookies
 - [ ] Proxy
-- [ ] User agent
 - [ ] Transfer progress
 - [ ] Upload array of files in one POST field
 - [ ] Upload/Download large files
