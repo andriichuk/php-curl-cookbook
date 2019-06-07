@@ -39,7 +39,8 @@ For testing requests we will use the excellent services [httpbin.org](https://ht
         * [Upload multiple files](#upload-multiple-files)
         * [Download file](#download-file)
     * [Auth](#auth)
-	* [Basic Auth](#basic-auth)
+        * [Basic Auth](#basic-auth)
+        * [Digest Auth](#digest-auth)
 * [Todo](#todo)
 
 ## Requirements
@@ -1499,6 +1500,68 @@ print_r($response->getBody()->getContents());
 ```
 
 #### Response example
+
+```json
+{"authenticated":true}
+```
+
+### Digest Auth
+
+#### Bash
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/02_Auth/02_Digest_Auth/console.sh)]
+
+```bash
+curl --digest --user postman:password --request GET "https://postman-echo.com/digest-auth"
+```
+
+#### PHP CURL extension
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/02_Auth/02_Digest_Auth/curl-ext.php)]
+
+```php
+$curlHandler = curl_init();
+
+$userName = 'postman';
+$password = 'password';
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://postman-echo.com/digest-auth',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
+    CURLOPT_USERPWD => $userName . ':' . $password,
+]);
+
+$response = curl_exec($curlHandler);
+curl_close($curlHandler);
+
+print_r($response);
+```
+
+#### PHP Guzzle library
+
+[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/02_Auth/02_Digest_Auth/guzzle-lib.php)]
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+
+$userName = 'postman';
+$password = 'password';
+
+$httpClient = new Client();
+
+$response = $httpClient->get(
+    'https://postman-echo.com/digest-auth',
+    [
+        RequestOptions::AUTH => [$userName, $password, 'digest']
+    ]
+);
+
+print_r($response->getBody()->getContents());
+```
+
+#### Response
 
 ```json
 {"authenticated":true}
