@@ -917,7 +917,7 @@ $curlHandler = curl_init();
 curl_setopt_array($curlHandler, [
     CURLOPT_URL => 'https://httpbin.org/absolute-redirect/3',
     CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_FOLLOWLOCATION => false,
+    CURLOPT_FOLLOWLOCATION => true,
     CURLOPT_MAXREDIRS => 5,
 ]);
 
