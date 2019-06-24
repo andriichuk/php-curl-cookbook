@@ -1346,6 +1346,8 @@ Array
     [4] => http://httpbin.org/get
 )
 ```
+</p>
+</details>
 
 # Advanced
 
