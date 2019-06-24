@@ -1,6 +1,6 @@
 # PHP CURL Cookbook
 
-List of commonly used cases with PHP cURL extension
+List of commonly used cases with PHP cURL extension.
 
 CURL library [Home Page](https://curl.haxx.se/) and [Wiki Page](https://ec.haxx.se/).
 
@@ -16,7 +16,7 @@ For testing requests we will use the excellent services [httpbin.org](https://ht
 * [Installation](#installation)
 * [Basics](#basics)
     * [HTTP Request methods](#http-request-methods)
-    	* [GET](#get)
+    	* [GET method](#get-method)
     	* [POST raw request](#post-raw-request)
     	* [POST form data](#post-form-data)
     	* [PUT method](#put-method)
@@ -89,7 +89,7 @@ php ./01_Basics/01_Request_Methods/01_Get/curl-ext.php
 
 ## HTTP Request methods
 
-### GET
+### GET method
 
 #### Bash 
 
@@ -142,9 +142,11 @@ echo(
 ```
 
 <details><summary>Response</summary>
+<p>
 ```json
 {"args":{"foo":"bar"},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","user-agent":"GuzzleHttp/6.3.3 curl/7.64.0 PHP/7.3.5-1+ubuntu19.04.1+deb.sury.org+1","x-forwarded-port":"443"},"url":"https://postman-echo.com/get?foo=bar"}
 ```
+</p>
 </details>
 
 ### POST raw request
