@@ -136,9 +136,7 @@ $response = $httpClient->get(
     ]
 );
 
-echo(
-    $response->getBody()->getContents()
-);
+echo($response->getBody()->getContents());
 ```
 
 <details><summary>Response</summary>
@@ -211,9 +209,7 @@ $response = $httpClient->post(
     ]
 );
 
-echo(
-    $response->getBody()->getContents()
-);
+echo($response->getBody()->getContents());
 ```
 
 <details><summary>Response</summary>
@@ -230,11 +226,15 @@ echo(
 
 #### Bash
 
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/03_Post_Form_Data/console.sh)]
+
 ```bash
 curl --request POST "https://postman-echo.com/post" --data "foo=bar&baz=biz"
 ```
 
 #### PHP CURL extension
+
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/03_Post_Form_Data/curl-ext.php)]
 
 ```php
 $curlHandler = curl_init();
@@ -266,6 +266,8 @@ echo($response);
 
 #### PHP Guzzle library
 
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/03_Post_Form_Data/guzzle-lib.php)]
+
 ```php
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
@@ -282,9 +284,7 @@ $response = $httpClient->post(
     ]
 );
 
-echo(
-    $response->getBody()->getContents()
-);
+echo($response->getBody()->getContents());
 ```
 
 <details><summary>Response</summary>
@@ -301,11 +301,15 @@ echo(
 
 #### Bash
 
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/04_Put/console.sh)]
+
 ```bash
 curl --request PUT "https://postman-echo.com/put" --data "foo=bar&baz=biz"
 ```
 
 #### PHP CURL extension
+
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/04_Put/curl-ext.php)]
 
 ```php
 $curlHandler = curl_init();
@@ -337,6 +341,8 @@ echo($pageContent);
 
 #### PHP Guzzle library
 
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/04_Put/guzzle-lib.php)]
+
 ```php
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
@@ -353,9 +359,7 @@ $response = $httpClient->put(
     ]
 );
 
-echo(
-    $response->getBody()->getContents()
-);
+echo($response->getBody()->getContents());
 ```
 
 <details><summary>Response</summary>
@@ -424,9 +428,7 @@ $response = $httpClient->patch(
     ]
 );
 
-echo(
-    $response->getBody()->getContents()
-);
+echo($response->getBody()->getContents());
 ```
 
 <details><summary>Response</summary>
@@ -495,9 +497,7 @@ $response = $httpClient->delete(
     ]
 );
 
-echo(
-    $response->getBody()->getContents()
-);
+echo($response->getBody()->getContents());
 ```
 
 <details><summary>Response</summary>
