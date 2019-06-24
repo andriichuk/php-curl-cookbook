@@ -119,6 +119,8 @@ echo($response);
 
 #### PHP Guzzle library 
 
+Call `get` method of Guzzle Client instance.
+
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/01_Get/guzzle-lib.php)]
 
 ```php
@@ -189,6 +191,8 @@ echo($response);
 ```
 
 #### PHP Guzzle library
+
+Call `post` method of Guzzle Client instance.
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/02_Post_Raw_Data/guzzle-lib.php)]
 
@@ -266,6 +270,8 @@ echo($response);
 
 #### PHP Guzzle library
 
+Call `post` method of Guzzle Client instance.
+
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/03_Post_Form_Data/guzzle-lib.php)]
 
 ```php
@@ -341,6 +347,8 @@ echo($pageContent);
 
 #### PHP Guzzle library
 
+Call `put` method of Guzzle Client instance.
+
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/04_Put/guzzle-lib.php)]
 
 ```php
@@ -412,6 +420,8 @@ echo($pageContent);
 
 #### PHP Guzzle library
 
+Call `patch` method of Guzzle Client instance.
+
 ```php
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
@@ -480,6 +490,8 @@ echo($pageContent);
 ```
 
 #### PHP Guzzle library
+
+Call `delete` method of Guzzle Client instance.
 
 ```php
 use GuzzleHttp\Client;
