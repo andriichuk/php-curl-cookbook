@@ -35,6 +35,7 @@ For testing requests we will use the excellent services [httpbin.org](https://ht
     * [Set HTTP version](#set-http-version)
     * [Get cURL version](#get-curl-version)
     * [Set User agent](#set-user-agent)
+    * [Redirect Location History](#redirect-location-history)
 * [Advanced](#advanced)
     * [Files](#files)
         * [Upload file](#upload-file)
@@ -1233,6 +1234,117 @@ $response = $httpClient->get(
 );
 
 print_r($response->getBody()->getContents());
+```
+
+### Redirect Location History
+
+#### Bash
+
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/12_Redirect_Location_History/console.sh)]
+
+```bash
+curl --verbose --location --request GET "https://httpbin.org/absolute-redirect/5" 2>&1 | grep "Location:"
+```
+
+<details><summary>Response</summary>
+<p>
+
+```plain
+< Location: http://httpbin.org/absolute-redirect/4
+< Location: http://httpbin.org/absolute-redirect/3
+< Location: http://httpbin.org/absolute-redirect/2
+< Location: http://httpbin.org/absolute-redirect/1
+< Location: http://httpbin.org/get
+```
+
+</p>
+</details>
+
+#### PHP CURL extension
+
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/12_Redirect_Location_History/curl-ext.php)]
+
+```php
+$curlHandler = curl_init();
+
+$locations = [];
+
+curl_setopt_array(
+    $curlHandler,
+    [
+        CURLOPT_URL => 'https://httpbin.org/absolute-redirect/5',
+        CURLOPT_NOBODY => true,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HEADERFUNCTION => function ($curlInfo, $header) use (&$locations) {
+            preg_match('#Location:\s(?<url>[\S]+)#iu', $header, $location);
+
+            if (!empty($location['url'])) {
+                $locations[] = trim($location['url']);
+            }
+
+            return mb_strlen($header);
+        },
+    ]
+);
+
+curl_exec($curlHandler);
+curl_close($curlHandler);
+
+print_r($locations);
+```
+
+<details><summary>Response</summary>
+<p>
+
+```plain
+Array
+(
+    [0] => http://httpbin.org/absolute-redirect/4
+    [1] => http://httpbin.org/absolute-redirect/3
+    [2] => http://httpbin.org/absolute-redirect/2
+    [3] => http://httpbin.org/absolute-redirect/1
+    [4] => http://httpbin.org/get
+)
+```
+
+</p>
+</details>
+
+#### PHP Guzzle library
+
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/12_Redirect_Location_History/guzzle-lib.php)]
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+
+$httpClient = new Client();
+
+$response = $httpClient->get(
+    'https://httpbin.org/absolute-redirect/5',
+    [
+        RequestOptions::ALLOW_REDIRECTS => [
+            'max' => 5,
+            'track_redirects' => true,
+        ],
+    ]
+);
+
+print_r($response->getHeaders()['X-Guzzle-Redirect-History']);
+```
+
+<details><summary>Response</summary>
+<p>
+
+```plain
+Array
+(
+    [0] => http://httpbin.org/absolute-redirect/4
+    [1] => http://httpbin.org/absolute-redirect/3
+    [2] => http://httpbin.org/absolute-redirect/2
+    [3] => http://httpbin.org/absolute-redirect/1
+    [4] => http://httpbin.org/get
+)
 ```
 
 # Advanced
