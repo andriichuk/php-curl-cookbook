@@ -216,11 +216,15 @@ echo(
 );
 ```
 
-#### Response
+<details><summary>Response</summary>
+<p>
 
 ```json
 {"args":{},"data":"","files":{},"form":{"POST raw request content":""},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","content-length":"24","content-type":"application/x-www-form-urlencoded","user-agent":"GuzzleHttp/6.3.3 curl/7.64.0 PHP/7.3.5-1+ubuntu19.04.1+deb.sury.org+1","x-forwarded-port":"443"},"json":{"POST raw request content":""},"url":"https://postman-echo.com/post"}
 ```
+
+</p>
+</details>
 
 ### POST form data
 
@@ -283,11 +287,15 @@ echo(
 );
 ```
 
-#### Response
+<details><summary>Response</summary>
+<p>
 
 ```json
 {"args":{},"data":"","files":{},"form":{"foo":"bar","baz":"biz"},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","content-length":"15","content-type":"application/x-www-form-urlencoded","user-agent":"GuzzleHttp/6.3.3 curl/7.64.0 PHP/7.3.5-1+ubuntu19.04.1+deb.sury.org+1","x-forwarded-port":"443"},"json":{"foo":"bar","baz":"biz"},"url":"https://postman-echo.com/post"}
 ```
+
+</p>
+</details>
 
 ### PUT method
 
@@ -350,11 +358,15 @@ echo(
 );
 ```
 
-#### Response
+<details><summary>Response</summary>
+<p>
 
 ```json
 {"args":{},"data":"","files":{},"form":{"foo":"bar","baz":"biz"},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","content-length":"15","content-type":"application/x-www-form-urlencoded","user-agent":"GuzzleHttp/6.3.3 curl/7.64.0 PHP/7.3.5-1+ubuntu19.04.1+deb.sury.org+1","x-forwarded-port":"443"},"json":{"foo":"bar","baz":"biz"},"url":"https://postman-echo.com/put"}
 ```
+
+</p>
+</details>
 
 ### PATCH method
 
@@ -417,11 +429,15 @@ echo(
 );
 ```
 
-#### Response
+<details><summary>Response</summary>
+<p>
 
 ```json
 {"args":{},"data":"","files":{},"form":{"foo":"bar","baz":"biz"},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","content-length":"15","accept":"*/*","content-type":"application/x-www-form-urlencoded","user-agent":"curl/7.64.0","x-forwarded-port":"443"},"json":{"foo":"bar","baz":"biz"},"url":"https://postman-echo.com/patch"}
 ```
+
+</p>
+</details>
 
 ### DELETE method
 
@@ -484,11 +500,15 @@ echo(
 );
 ```
 
-#### Response
+<details><summary>Response</summary>
+<p>
 
 ```json
 {"args":{},"data":"","files":{},"form":{"foo":"bar","baz":"biz"},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","content-length":"15","content-type":"application/x-www-form-urlencoded","user-agent":"GuzzleHttp/6.3.3 curl/7.64.0 PHP/7.3.5-1+ubuntu19.04.1+deb.sury.org+1","x-forwarded-port":"443"},"json":{"foo":"bar","baz":"biz"},"url":"https://postman-echo.com/delete"}
 ```
+
+</p>
+</details>
 
 ## Headers
 
@@ -548,11 +568,15 @@ print_r(
 );
 ```
 
-#### Response
+<details><summary>Response</summary>
+<p>
 
 ```json
 {"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","baz":"biz","foo":"bar","user-agent":"GuzzleHttp/6.3.3 curl/7.64.0 PHP/7.3.5-1+ubuntu19.04.1+deb.sury.org+1","x-forwarded-port":"443"}}
 ```
+
+</p>
+</details>
 
 ### Get response headers
 
@@ -616,7 +640,8 @@ print_r(
 );
 ```
 
-#### Response
+<details><summary>Response</summary>
+<p>
 
 ```plain
 Array
@@ -632,6 +657,9 @@ Array
         )
     // ...	
 ```
+
+</p>
+</details>
 
 ## Request stats
 
@@ -681,7 +709,8 @@ $httpClient->get(
 );
 ```
 
-#### Response
+<details><summary>Response</summary>
+<p>
 
 ```plain
 Array
@@ -696,6 +725,9 @@ Array
     [redirect_count] => 0
     // ...
 ```
+
+</p>
+</details>
 
 ## Debug request
 
@@ -749,7 +781,8 @@ $httpClient->get(
 );
 ```
 
-#### Response
+<details><summary>Response</summary>
+<p>
 
 ```plain
 *   Trying 35.153.115.14...
@@ -759,6 +792,9 @@ $httpClient->get(
 * Connected to postman-echo.com (35.153.115.14) port 443 (#0)
 // ...
 ```
+
+</p>
+</details>
 
 ### Output debug info to file
 
@@ -897,7 +933,8 @@ try {
 }
 ```
 
-#### Response
+<details><summary>Response</summary>
+<p>
 
 ```plain
 Array
@@ -906,6 +943,9 @@ Array
     [error_message] => Operation timed out after 3001 milliseconds with 0 bytes received
 )
 ```
+
+</p>
+</details>
 
 ## Follow redirects
 
@@ -956,7 +996,8 @@ $response = $httpClient->get(
 echo $response->getStatusCode();
 ```
 
-#### Response
+<details><summary>Response</summary>
+<p>
 
 ```json
 {
@@ -969,6 +1010,9 @@ echo $response->getStatusCode();
   "url": "https://httpbin.org/get"
 }
 ```
+
+</p>
+</details>
 
 ## Timeouts
 
@@ -1075,7 +1119,8 @@ $response = $httpClient->get(
 );
 ```
 
-#### Response
+<details><summary>Response</summary>
+<p>
 
 ```plain
 Array
@@ -1087,6 +1132,9 @@ Array
     ...
 )
 ```
+
+</p>
+</details>
 
 ### Get cURL version
 
@@ -1106,7 +1154,8 @@ curl --version
 print_r(curl_version());
 ```
 
-#### Response
+<details><summary>Response</summary>
+<p>
 
 ```plain
 curl 7.64.0 (x86_64-pc-linux-gnu) libcurl/7.64.0 OpenSSL/1.1.1c zlib/1.2.11 libidn2/2.0.5 libpsl/0.20.2 (+libidn2/2.0.5) libssh/0.8.6/openssl/zlib nghttp2/1.36.0 librtmp/2.3
@@ -1114,6 +1163,9 @@ Release-Date: 2019-02-06
 Protocols: dict file ftp ftps gopher http https imap imaps ldap ldaps pop3 pop3s rtmp rtsp scp sftp smb smbs smtp smtps telnet tftp 
 Features: AsynchDNS IDN IPv6 Largefile GSS-API Kerberos SPNEGO NTLM NTLM_WB SSL libz TLS-SRP HTTP2 UnixSockets HTTPS-proxy PSL
 ```
+
+</p>
+</details>
 
 ### Set User agent
 
@@ -1258,11 +1310,15 @@ $response = $httpClient->post(
 echo($response->getBody()->getContents());
 ```
 
-#### Response
+<details><summary>Response</summary>
+<p>
 
 ```json
 {"args":{},"data":{},"files":{"file":"data:application/octet-stream;base64,TG9yZW0gaXBzdW0gZG9sb3Igc2l0I ...
 ```
+
+</p>
+</details>
 
 ### Upload multiple files
 
@@ -1424,11 +1480,15 @@ if ($response->getStatusCode() === 200) {
 }
 ```
 
-#### Response
+<details><summary>Response</summary>
+<p>
 
 ```plain
 The image has been successfully downloaded: /home/serge/curl-examples/02_Advanced/01_Files/03_Download/resource/image.jpeg
 ```
+
+</p>
+</details>
 
 ## Auth
 
@@ -1509,11 +1569,15 @@ $response = $httpClient->get(
 print_r($response->getBody()->getContents());
 ```
 
-#### Response
+<details><summary>Response</summary>
+<p>
 
 ```json
 {"authenticated":true}
 ```
+
+</p>
+</details>
 
 ### Digest Auth
 
@@ -1572,11 +1636,15 @@ $response = $httpClient->get(
 print_r($response->getBody()->getContents());
 ```
 
-#### Response
+<details><summary>Response</summary>
+<p>
 
 ```json
 {"authenticated":true}
 ```
+
+</p>
+</details>
 
 ### Bearer Auth
 
@@ -1637,7 +1705,8 @@ $response = $httpClient->get(
 print_r($response->getBody()->getContents());
 ```
 
-#### Response
+<details><summary>Response</summary>
+<p>
 
 ```json
 {
@@ -1645,6 +1714,9 @@ print_r($response->getBody()->getContents());
   "token": "your_token"
 }
 ```
+
+</p>
+</details>
 
 ## Todo
 
