@@ -1,6 +1,8 @@
-# List of commonly used cases with PHP cURL extension
+# PHP CURL Cookbook
 
-cURL library [Home Page](https://curl.haxx.se/) and [Wiki Page](https://ec.haxx.se/).
+List of commonly used cases with PHP cURL extension
+
+CURL library [Home Page](https://curl.haxx.se/) and [Wiki Page](https://ec.haxx.se/).
 
 PHP [Extension Page](http://docs.php.net/manual/en/book.curl.php) and [List Of Options](http://docs.php.net/manual/en/function.curl-setopt.php).
 
@@ -14,7 +16,7 @@ For testing requests we will use the excellent services [httpbin.org](https://ht
 * [Installation](#installation)
 * [Basics](#basics)
     * [HTTP Request methods](#http-request-methods)
-    	* [Send HTTP request using GET method](#send-http-request-using-get-method)
+    	* [GET](#get)
     	* [POST raw request](#post-raw-request)
     	* [POST form data](#post-form-data)
     	* [PUT method](#put-method)
@@ -87,11 +89,11 @@ php ./01_Basics/01_Request_Methods/01_Get/curl-ext.php
 
 ## HTTP Request methods
 
-### Send HTTP request using GET method
+### GET
 
 #### Bash 
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/01_Request_Methods/01_Get/console.sh)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/01_Get/console.sh)]
 
 ```bash
 curl --request GET "https://postman-echo.com/get?foo=bar"
@@ -99,7 +101,7 @@ curl --request GET "https://postman-echo.com/get?foo=bar"
 
 #### PHP CURL extension 
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/01_Request_Methods/01_Get/curl-ext.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/01_Get/curl-ext.php)]
 
 ```php
 $curlHandler = curl_init();
@@ -117,7 +119,7 @@ echo($response);
 
 #### PHP Guzzle library 
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/01_Request_Methods/01_Get/guzzle-lib.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/01_Get/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
@@ -139,17 +141,17 @@ echo(
 );
 ```
 
-#### Response example
-
+<details><summary>Response</summary>
 ```json
 {"args":{"foo":"bar"},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","user-agent":"GuzzleHttp/6.3.3 curl/7.64.0 PHP/7.3.5-1+ubuntu19.04.1+deb.sury.org+1","x-forwarded-port":"443"},"url":"https://postman-echo.com/get?foo=bar"}
 ```
+</details>
 
 ### POST raw request
 
 #### Bash
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/01_Request_Methods/02_Post_Raw_Data/console.sh)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/02_Post_Raw_Data/console.sh)]
 
 ```bash
 curl --request POST "https://postman-echo.com/post" --data "POST raw request content"
@@ -157,7 +159,7 @@ curl --request POST "https://postman-echo.com/post" --data "POST raw request con
 
 #### PHP CURL extension
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/01_Request_Methods/02_Post_Raw_Data/curl-ext.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/02_Post_Raw_Data/curl-ext.php)]
 
 ```php
 $curlHandler = curl_init();
@@ -186,7 +188,7 @@ echo($response);
 
 #### PHP Guzzle library
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/01_Request_Methods/02_Post_Raw_Data/guzzle-lib.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/02_Post_Raw_Data/guzzle-lib.php)]
 
 ```php
 
@@ -210,7 +212,7 @@ echo(
 );
 ```
 
-#### Response expample
+#### Response
 
 ```json
 {"args":{},"data":"","files":{},"form":{"POST raw request content":""},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","content-length":"24","content-type":"application/x-www-form-urlencoded","user-agent":"GuzzleHttp/6.3.3 curl/7.64.0 PHP/7.3.5-1+ubuntu19.04.1+deb.sury.org+1","x-forwarded-port":"443"},"json":{"POST raw request content":""},"url":"https://postman-echo.com/post"}
@@ -277,7 +279,7 @@ echo(
 );
 ```
 
-#### Response example
+#### Response
 
 ```json
 {"args":{},"data":"","files":{},"form":{"foo":"bar","baz":"biz"},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","content-length":"15","content-type":"application/x-www-form-urlencoded","user-agent":"GuzzleHttp/6.3.3 curl/7.64.0 PHP/7.3.5-1+ubuntu19.04.1+deb.sury.org+1","x-forwarded-port":"443"},"json":{"foo":"bar","baz":"biz"},"url":"https://postman-echo.com/post"}
@@ -344,7 +346,7 @@ echo(
 );
 ```
 
-#### Response example
+#### Response
 
 ```json
 {"args":{},"data":"","files":{},"form":{"foo":"bar","baz":"biz"},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","content-length":"15","content-type":"application/x-www-form-urlencoded","user-agent":"GuzzleHttp/6.3.3 curl/7.64.0 PHP/7.3.5-1+ubuntu19.04.1+deb.sury.org+1","x-forwarded-port":"443"},"json":{"foo":"bar","baz":"biz"},"url":"https://postman-echo.com/put"}
@@ -411,7 +413,7 @@ echo(
 );
 ```
 
-#### Response example
+#### Response
 
 ```json
 {"args":{},"data":"","files":{},"form":{"foo":"bar","baz":"biz"},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","content-length":"15","accept":"*/*","content-type":"application/x-www-form-urlencoded","user-agent":"curl/7.64.0","x-forwarded-port":"443"},"json":{"foo":"bar","baz":"biz"},"url":"https://postman-echo.com/patch"}
@@ -478,7 +480,7 @@ echo(
 );
 ```
 
-#### Response example
+#### Response
 
 ```json
 {"args":{},"data":"","files":{},"form":{"foo":"bar","baz":"biz"},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","content-length":"15","content-type":"application/x-www-form-urlencoded","user-agent":"GuzzleHttp/6.3.3 curl/7.64.0 PHP/7.3.5-1+ubuntu19.04.1+deb.sury.org+1","x-forwarded-port":"443"},"json":{"foo":"bar","baz":"biz"},"url":"https://postman-echo.com/delete"}
@@ -542,7 +544,7 @@ print_r(
 );
 ```
 
-#### Response example
+#### Response
 
 ```json
 {"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","baz":"biz","foo":"bar","user-agent":"GuzzleHttp/6.3.3 curl/7.64.0 PHP/7.3.5-1+ubuntu19.04.1+deb.sury.org+1","x-forwarded-port":"443"}}
@@ -610,7 +612,7 @@ print_r(
 );
 ```
 
-#### Response example
+#### Response
 
 ```plain
 Array
@@ -675,7 +677,7 @@ $httpClient->get(
 );
 ```
 
-#### Response example
+#### Response
 
 ```plain
 Array
@@ -697,7 +699,7 @@ Array
 
 #### Bash
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/04_Debug_Request/01_Output_Debug_Info_To_Stderr/console.sh)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/04_Debug_Request/01_Output_Debug_Info_To_Stderr/console.sh)]
 
 ```bash
 curl --verbose --request GET "https://postman-echo.com/get?foo=bar"
@@ -705,7 +707,7 @@ curl --verbose --request GET "https://postman-echo.com/get?foo=bar"
 
 #### PHP CURL extension
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/04_Debug_Request/01_Output_Debug_Info_To_Stderr/curl-ext.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/04_Debug_Request/01_Output_Debug_Info_To_Stderr/curl-ext.php)]
 
 ```php
 $curlHandler = curl_init();
@@ -727,7 +729,7 @@ curl_close($curlHandler);
 
 #### PHP Guzzle library
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/04_Debug_Request/01_Output_Debug_Info_To_Stderr/guzzle-lib.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/04_Debug_Request/01_Output_Debug_Info_To_Stderr/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
@@ -743,7 +745,7 @@ $httpClient->get(
 );
 ```
 
-#### Response example
+#### Response
 
 ```plain
 *   Trying 35.153.115.14...
@@ -758,7 +760,7 @@ $httpClient->get(
 
 #### Bash
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/04_Debug_Request/02_Output_Debug_Info_To_File/console.sh)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/04_Debug_Request/02_Output_Debug_Info_To_File/console.sh)]
 
 ```bash
 curl --request GET "https://postman-echo.com/get?foo=bar" --verbose --silent > debug.log 2>&1
@@ -766,7 +768,7 @@ curl --request GET "https://postman-echo.com/get?foo=bar" --verbose --silent > d
 
 #### PHP CURL extension
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/04_Debug_Request/02_Output_Debug_Info_To_File/curl-ext.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/04_Debug_Request/02_Output_Debug_Info_To_File/curl-ext.php)]
 
 ```php
 $curlHandler = curl_init();
@@ -794,7 +796,7 @@ curl_close($curlHandler);
 
 #### PHP Guzzle library
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/04_Debug_Request/02_Output_Debug_Info_To_File/guzzle-lib.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/04_Debug_Request/02_Output_Debug_Info_To_File/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
@@ -825,7 +827,7 @@ $httpClient->get(
 
 #### Bash
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/05_Error_Catching/console.sh)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/05_Error_Catching/console.sh)]
 
 ```bash
 curl --verbose --request GET "https://httpbin.org/delay/5" --max-time 3 --connect-timeout 2
@@ -833,7 +835,7 @@ curl --verbose --request GET "https://httpbin.org/delay/5" --max-time 3 --connec
 
 #### PHP CURL extension
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/05_Error_Catching/curl-ext.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/05_Error_Catching/curl-ext.php)]
 
 ```php
 $curlHandler = curl_init();
@@ -864,7 +866,7 @@ curl_close($curlHandler);
 
 #### PHP Guzzle library
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/05_Error_Catching/guzzle-lib.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/05_Error_Catching/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
@@ -891,7 +893,7 @@ try {
 }
 ```
 
-#### Response example
+#### Response
 
 ```plain
 Array
@@ -950,7 +952,7 @@ $response = $httpClient->get(
 echo $response->getStatusCode();
 ```
 
-#### Response example
+#### Response
 
 ```json
 {
@@ -968,7 +970,7 @@ echo $response->getStatusCode();
 
 #### Bash
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/06_Timeouts/console.sh)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/06_Timeouts/console.sh)]
 
 ```bash
 curl --request GET "https://httpbin.org/delay/5" --max-time 20 --connect-timeout 10
@@ -976,7 +978,7 @@ curl --request GET "https://httpbin.org/delay/5" --max-time 20 --connect-timeout
 
 #### PHP CURL extension
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/06_Timeouts/curl-ext.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/06_Timeouts/curl-ext.php)]
 
 ```php
 $curlHandler = curl_init();
@@ -997,7 +999,7 @@ print_r($response);
 
 #### PHP Guzzle library
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/06_Timeouts/guzzle-lib.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/06_Timeouts/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
@@ -1020,7 +1022,7 @@ print_r($response->getBody()->getContents());
 
 #### Bash
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/08_Set_Http_Version/console.sh)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/08_Set_Http_Version/console.sh)]
 
 ```bash
 # See https://ec.haxx.se/http-versions.html
@@ -1030,7 +1032,7 @@ curl --request GET "https://httpbin.org/get" --http2
 
 #### PHP CURL extension
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/08_Set_Http_Version/curl-ext.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/08_Set_Http_Version/curl-ext.php)]
 
 ```php
 $curlHandler = curl_init();
@@ -1049,7 +1051,7 @@ print_r($info);
 
 #### PHP Guzzle library
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/08_Set_Http_Version/guzzle-lib.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/08_Set_Http_Version/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
@@ -1069,7 +1071,7 @@ $response = $httpClient->get(
 );
 ```
 
-#### Response example
+#### Response
 
 ```plain
 Array
@@ -1086,7 +1088,7 @@ Array
 
 #### Bash
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/09_Get_Curl_Version/console.sh)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/09_Get_Curl_Version/console.sh)]
 
 ```bash
 curl --version
@@ -1094,13 +1096,13 @@ curl --version
 
 #### PHP CURL extension and Guzzle library
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/09_Get_Curl_Version/curl-ext.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/09_Get_Curl_Version/curl-ext.php)]
 
 ```php
 print_r(curl_version());
 ```
 
-#### Response example
+#### Response
 
 ```plain
 curl 7.64.0 (x86_64-pc-linux-gnu) libcurl/7.64.0 OpenSSL/1.1.1c zlib/1.2.11 libidn2/2.0.5 libpsl/0.20.2 (+libidn2/2.0.5) libssh/0.8.6/openssl/zlib nghttp2/1.36.0 librtmp/2.3
@@ -1113,7 +1115,7 @@ Features: AsynchDNS IDN IPv6 Largefile GSS-API Kerberos SPNEGO NTLM NTLM_WB SSL 
 
 #### Bash
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/10_Set_User_Agent/console.sh)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/10_Set_User_Agent/console.sh)]
 
 ```bash
 curl --request GET "https://httpbin.org/get" --user-agent 'Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A537a Safari/419.3'
@@ -1121,7 +1123,7 @@ curl --request GET "https://httpbin.org/get" --user-agent 'Mozilla/5.0 (iPhone; 
 
 #### PHP CURL extension
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/10_Set_User_Agent/curl-ext.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/10_Set_User_Agent/curl-ext.php)]
 
 ```php
 $curlHandler = curl_init();
@@ -1145,7 +1147,7 @@ print_r($response);
 
 #### PHP Guzzle library
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/01_Basics/10_Set_User_Agent/guzzle-lib.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/10_Set_User_Agent/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
@@ -1173,7 +1175,7 @@ print_r($response->getBody()->getContents());
 
 #### Bash
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/01_Files/01_Upload/console.sh)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/01_Upload/console.sh)]
 
 ```bash
 # format: curl --form '[request_field_name]=@[absolute_path_to_file]' [upload_url]
@@ -1182,7 +1184,7 @@ curl --form 'file=@/home/serge/curl-examples/02_Advanced/01_Files/01_Upload/reso
 
 #### PHP CURL extension
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/01_Files/01_Upload/curl-ext.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/01_Upload/curl-ext.php)]
 
 ```php
 $uploadFilePath = __DIR__ . '/resource/file.txt';
@@ -1228,7 +1230,7 @@ echo($response);
 
 #### PHP Guzzle library
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/01_Files/01_Upload/guzzle-lib.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/01_Upload/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
@@ -1252,7 +1254,7 @@ $response = $httpClient->post(
 echo($response->getBody()->getContents());
 ```
 
-#### Response example
+#### Response
 
 ```json
 {"args":{},"data":{},"files":{"file":"data:application/octet-stream;base64,TG9yZW0gaXBzdW0gZG9sb3Igc2l0I ...
@@ -1262,7 +1264,7 @@ echo($response->getBody()->getContents());
 
 #### Bash
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/01_Files/02_Upload_Multiple/console.sh)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/02_Upload_Multiple/console.sh)]
 
 ```bash
 curl --form 'text_file=@/home/serge/curl-examples/02_Advanced/01_Files/02_Upload_Multiple/resource/file.txt' \
@@ -1272,7 +1274,7 @@ https://postman-echo.com/post
 
 #### PHP CURL extension
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/01_Files/02_Upload_Multiple/curl-ext.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/02_Upload_Multiple/curl-ext.php)]
 
 ```php
 $localFiles = [
@@ -1318,7 +1320,7 @@ echo($response);
 
 #### PHP Guzzle library
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/01_Files/02_Upload_Multiple/guzzle-lib.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/02_Upload_Multiple/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
@@ -1365,7 +1367,7 @@ echo($response->getBody()->getContents());
 
 #### Bash
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/01_Files/03_Download/console.sh)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/03_Download/console.sh)]
 
 ```bash
 curl https://httpbin.org/image/jpeg --output /home/serge/curl-examples/02_Advanced/01_Files/03_Download/resource/image.jpeg
@@ -1373,7 +1375,7 @@ curl https://httpbin.org/image/jpeg --output /home/serge/curl-examples/02_Advanc
 
 #### PHP CURL extension
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/01_Files/03_Download/curl-ext.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/03_Download/curl-ext.php)]
 
 ```php
 $imageFilePath = __DIR__ . '/resource/image.jpeg';
@@ -1396,7 +1398,7 @@ curl_close($curlHandler);
 
 #### PHP Guzzle library
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/01_Files/03_Download/guzzle-lib.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/03_Download/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
@@ -1418,7 +1420,7 @@ if ($response->getStatusCode() === 200) {
 }
 ```
 
-#### Response example
+#### Response
 
 ```plain
 The image has been successfully downloaded: /home/serge/curl-examples/02_Advanced/01_Files/03_Download/resource/image.jpeg
@@ -1430,7 +1432,7 @@ The image has been successfully downloaded: /home/serge/curl-examples/02_Advance
 
 #### Bash
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/02_Auth/01_Basic_Auth/console.sh)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/02_Auth/01_Basic_Auth/console.sh)]
 
 ```bash
 curl --user postman:password --request GET "https://postman-echo.com/basic-auth"
@@ -1438,7 +1440,7 @@ curl --user postman:password --request GET "https://postman-echo.com/basic-auth"
 
 #### PHP CURL extension
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/02_Auth/01_Basic_Auth/curl-ext.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/02_Auth/01_Basic_Auth/curl-ext.php)]
 
 ```php
 $curlHandler = curl_init();
@@ -1482,7 +1484,7 @@ print_r('Second example response: ' . $response . PHP_EOL);
 
 #### PHP Guzzle library
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/02_Auth/01_Basic_Auth/guzzle-lib.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/02_Auth/01_Basic_Auth/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
@@ -1503,7 +1505,7 @@ $response = $httpClient->get(
 print_r($response->getBody()->getContents());
 ```
 
-#### Response example
+#### Response
 
 ```json
 {"authenticated":true}
@@ -1513,7 +1515,7 @@ print_r($response->getBody()->getContents());
 
 #### Bash
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/02_Auth/02_Digest_Auth/console.sh)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/02_Auth/02_Digest_Auth/console.sh)]
 
 ```bash
 curl --digest --user postman:password --request GET "https://postman-echo.com/digest-auth"
@@ -1521,7 +1523,7 @@ curl --digest --user postman:password --request GET "https://postman-echo.com/di
 
 #### PHP CURL extension
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/02_Auth/02_Digest_Auth/curl-ext.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/02_Auth/02_Digest_Auth/curl-ext.php)]
 
 ```php
 $curlHandler = curl_init();
@@ -1545,7 +1547,7 @@ print_r($response);
 
 #### PHP Guzzle library
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/02_Auth/02_Digest_Auth/guzzle-lib.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/02_Auth/02_Digest_Auth/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
@@ -1576,7 +1578,7 @@ print_r($response->getBody()->getContents());
 
 #### Bash
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/02_Auth/03_Bearer_Auth/console.sh)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/02_Auth/03_Bearer_Auth/console.sh)]
 
 ```bash
 curl -X GET "https://httpbin.org/bearer" -H "Accept: application/json" -H "Authorization: Bearer your_token"
@@ -1584,7 +1586,7 @@ curl -X GET "https://httpbin.org/bearer" -H "Accept: application/json" -H "Autho
 
 #### PHP CURL extension
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/02_Auth/03_Bearer_Auth/curl-ext.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/02_Auth/03_Bearer_Auth/curl-ext.php)]
 
 ```php
 $curlHandler = curl_init();
@@ -1608,7 +1610,7 @@ print_r($response);
 
 #### PHP Guzzle library
 
-[[example](https://github.com/andriichuk/curl-examples/blob/master/02_Advanced/02_Auth/03_Bearer_Auth/guzzle-lib.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/02_Auth/03_Bearer_Auth/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
