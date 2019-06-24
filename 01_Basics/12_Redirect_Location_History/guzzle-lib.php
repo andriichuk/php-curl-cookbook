@@ -4,6 +4,7 @@ require_once 'vendor/autoload.php';
 
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\RedirectMiddleware;
 
 $httpClient = new Client();
 
@@ -17,4 +18,4 @@ $response = $httpClient->get(
     ]
 );
 
-print_r($response->getHeaders()['X-Guzzle-Redirect-History']);
+print_r($response->getHeader(RedirectMiddleware::HISTORY_HEADER));
