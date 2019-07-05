@@ -22,7 +22,7 @@ curl_setopt_array($curlHandler, [
      * Collect server response headers
      */
     CURLOPT_HEADERFUNCTION => function ($curlInfo, $header) use (&$headers) {
-        array_push($headers, trim($header));
+        $headers[] = trim($header);
 
         return mb_strlen($header);
     },

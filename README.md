@@ -36,6 +36,7 @@ For testing requests we will use the excellent services [httpbin.org](https://ht
     * [Get cURL version](#get-curl-version)
     * [Set User agent](#set-user-agent)
     * [Redirect Location History](#redirect-location-history)
+    * [Set HTTP Referer](#set-http-referer)
 * [Advanced](#advanced)
     * [Files](#files)
         * [Upload file](#upload-file)
@@ -1350,6 +1351,78 @@ Array
 </p>
 </details>
 
+
+### Set HTTP Referer
+
+#### Bash
+
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/13_Set_Http_Referer/console.sh)]
+
+```bash
+curl --request GET "https://httpbin.org/get" --referer "https://github.com"
+```
+
+#### PHP CURL extension
+
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/12_Redirect_Location_History/curl-ext.php)]
+
+```php
+$curlHandler = curl_init();
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://httpbin.org/get',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_REFERER => 'https://github.com',
+]);
+
+$response = curl_exec($curlHandler);
+
+curl_close($curlHandler);
+
+print_r($response);
+```
+
+#### PHP Guzzle library
+
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/13_Set_Http_Referer/curl-ext.php)]
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+
+$httpClient = new Client();
+
+$response = $httpClient->get(
+    'https://httpbin.org/get',
+    [
+        RequestOptions::HEADERS => [
+            'Referer' => 'https://github.com',
+        ],
+    ]
+);
+
+print_r($response->getBody()->getContents());
+```
+
+<details><summary>Response</summary>
+<p>
+
+```plain
+{
+  "args": {}, 
+  "headers": {
+    "Accept": "*/*", 
+    "Host": "httpbin.org", 
+    "Referer": "https://github.com", 
+    "User-Agent": "curl/7.64.0"
+  }, 
+  "origin": "100.00.00.00", 
+  "url": "https://httpbin.org/get"
+}
+```
+</p>
+</details>
+
 # Advanced
 
 ## Files
@@ -1850,8 +1923,8 @@ print_r($response->getBody()->getContents());
 - [x] Set HTTP version
 - [x] Get cURL version
 - [x] Set User agent
+- [x] HTTP Referer
 - [ ] Cache control
-- [ ] HTTP Referer
 - [ ] HTTP methods (HEAD, CONNECT, OPTIONS, TRACE)
 - [ ] Cookies
 - [ ] Proxy
