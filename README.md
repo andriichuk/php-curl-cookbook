@@ -1364,7 +1364,7 @@ curl --request GET "https://httpbin.org/get" --referer "https://github.com"
 
 #### PHP CURL extension
 
-[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/12_Redirect_Location_History/curl-ext.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/13_Set_Http_Referer/curl-ext.php)]
 
 ```php
 $curlHandler = curl_init();
