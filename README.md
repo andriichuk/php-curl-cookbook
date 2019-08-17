@@ -60,31 +60,40 @@ For testing requests we will use the excellent services [httpbin.org](https://ht
 Download repository
 
 ```bash
-git clone https://github.com/andriichuk/curl-examples.git
+git clone https://github.com/andriichuk/php-curl-cookbook.git
 ```
 
 Go to the directory
 
 ```bash
-cd ./curl-examples
+cd ./php-curl-cookbook
 ```
 
 Install composer dependencies
 
 ```bash
-composer install
+bash run composer install
 ```
 
 Run BASH example
 
 ```bash
-bash ./01_Basics/01_Request_Methods/01_Get/console.sh
+bash run bash 01_Basics/01_Request_Methods/01_Get/console.sh
 ```
 
 Run PHP example
 
 ```bash
-php ./01_Basics/01_Request_Methods/01_Get/curl-ext.php
+bash run php 01_Basics/01_Request_Methods/01_Get/curl-ext.php
+```
+
+For multiple usage
+
+```bash
+bash console
+
+bash 01_Basics/01_Request_Methods/01_Get/console.sh
+php 01_Basics/01_Request_Methods/01_Get/curl-ext.php
 ```
 
 # Basics
@@ -105,12 +114,19 @@ curl --request GET "https://postman-echo.com/get?foo=bar"
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/01_Get/curl-ext.php)]
 
+The default method is GET. If you want to specify it directly than add `CURLOPT_CUSTOMREQUEST` option.
+
 ```php
 $curlHandler = curl_init();
 
 curl_setopt_array($curlHandler, [
     CURLOPT_URL => 'https://postman-echo.com/get?foo=bar',
     CURLOPT_RETURNTRANSFER => true,
+    
+    /**
+     * Or specify directly
+     * CURLOPT_CUSTOMREQUEST => 'GET'
+     */
 ]);
 
 $response = curl_exec($curlHandler);

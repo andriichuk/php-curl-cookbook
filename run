@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+ARGS=$@
+
+docker-compose run --rm php-fpm bash -c "${ARGS}"

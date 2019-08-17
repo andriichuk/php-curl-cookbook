@@ -1,0 +1,10 @@
+version: "3.1"
+
+services:
+
+  php-fpm:
+    build: docker/php-fpm
+    container_name: php-curl-cookbook-php-fpm
+    working_dir: /app
+    volumes:
+      - .:/app
