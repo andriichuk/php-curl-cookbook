@@ -49,6 +49,7 @@ For testing requests we will use the excellent services [httpbin.org](https://ht
     * [Cookies](#cookies)
         * [Send cookies from string](#send-cookies-from-string)
         * [Set cookie options](#set-cookie-options)
+        * [Send cookies from file](#send-cookies-from-file)
 * [Todo](#todo)
 
 ## Requirements
@@ -2099,7 +2100,116 @@ Cookie: foo=bar; baz=foo
   }
 }
 ```
+</p>
+
+### Send cookies from file
+
+#### Bash
+
+Cookie JAR file structure:
+
+```plain
+# Domain    Flag    Path    Secure  Expiration  Name    Value
+httpbin.org	FALSE	/	    FALSE	0	        foo	    bar
+httpbin.org	FALSE	/	    FALSE	0	        baz	    foo
+```
+
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/03_Cookies/03_Send_Cookies_From_File/console.sh)]
+
+```bash
+curl --cookie "02_Advanced/03_Cookies/03_Send_Cookies_From_File/resource/cookie-jar.txt" --request GET "https://httpbin.org/cookies"
+```
+
+#### PHP CURL extension
+
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/03_Cookies/03_Send_Cookies_From_File/curl-ext.php)]
+
+```php
+$curlHandler = curl_init();
+
+$cookieFile = __DIR__ . '/resource/cookie-jar.txt';
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://httpbin.org/cookies',
+    CURLOPT_RETURNTRANSFER => true,
+
+    CURLOPT_COOKIEFILE  => $cookieFile,
+]);
+
+$response = curl_exec($curlHandler);
+curl_close($curlHandler);
+
+echo $response;
+```
+
+#### PHP Guzzle library
+
+Guzzle cookie file structure:
+
+```json
+[
+  {
+    "Name": "foo",
+    "Value": "bar",
+    "Domain": "httpbin.org",
+    "Path": "\/",
+    "Max-Age": 100,
+    "Expires": 1567343671,
+    "Secure": false,
+    "Discard": false,
+    "HttpOnly": false
+  },
+  {
+    "Name": "baz",
+    "Value": "foo",
+    "Domain": "httpbin.org",
+    "Path": "\/",
+    "Max-Age": 100,
+    "Expires": 1567343671,
+    "Secure": false,
+    "Discard": false,
+    "HttpOnly": false
+  }
+]
+```
+
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/03_Cookies/03_Send_Cookies_From_File/guzzle-lib.php)]
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Cookie\FileCookieJar;
+
+$httpClient = new Client();
+
+$cookieJarFile = new FileCookieJar(
+    __DIR__ . '/resource/guzzle-cookie-jar.json',
+    false
+);
+
+$response = $httpClient->get(
+    'https://httpbin.org/cookies',
+    [
+        RequestOptions::COOKIES => $cookieJarFile,
+    ]
+);
+
+echo $response->getBody()->getContents();
+```
+
+<details><summary>Response</summary>
+<p>
+
+```json
+{
+  "cookies": {
+    "baz": "foo", 
+    "foo": "bar"
+  }
+}
+```
+</p>
 
 ## Todo
 
-Project link - [https://github.com/andriichuk/php-curl-cookbook/projects/1#column-6364809](https://github.com/andriichuk/php-curl-cookbook/projects/1#column-6364809)
+Project [link](https://github.com/andriichuk/php-curl-cookbook/projects/1#column-6364809)

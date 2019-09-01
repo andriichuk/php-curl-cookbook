@@ -1,0 +1,24 @@
+[
+  {
+    "Name": "foo",
+    "Value": "bar",
+    "Domain": "httpbin.org",
+    "Path": "\/",
+    "Max-Age": 100,
+    "Expires": 1567343671,
+    "Secure": false,
+    "Discard": false,
+    "HttpOnly": false
+  },
+  {
+    "Name": "baz",
+    "Value": "foo",
+    "Domain": "httpbin.org",
+    "Path": "\/",
+    "Max-Age": 100,
+    "Expires": 1567343671,
+    "Secure": false,
+    "Discard": false,
+    "HttpOnly": false
+  }
+]

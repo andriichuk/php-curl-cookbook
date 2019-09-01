@@ -1,0 +1,3 @@
+# Domain    Flag    Path    Secure  Expiration  Name    Value
+httpbin.org	FALSE	/	    FALSE	0	        foo	    bar
+httpbin.org	FALSE	/	    FALSE	0	        baz	    foo
