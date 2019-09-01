@@ -48,6 +48,7 @@ For testing requests we will use the excellent services [httpbin.org](https://ht
         * [Bearer Auth](#bearer-auth)
     * [Cookies](#cookies)
         * [Send cookies from string](#send-cookies-from-string)
+        * [Set cookie options](#set-cookie-options)
 * [Todo](#todo)
 
 ## Requirements
@@ -2021,23 +2022,84 @@ echo($response->getBody()->getContents());
 </p>
 </details>
 
+### Set cookie options
+
+Cookies have attributes that can be sent from the server to the client, but not from the client to the server.
+The client can only send the name and value of the cookie.
+
+#### PHP Guzzle library
+
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/03_Cookies/02_Set_Cookie_Options/guzzle-lib.php)]
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\Cookie\CookieJar;
+use GuzzleHttp\Cookie\SetCookie;
+use GuzzleHttp\RequestOptions;
+
+$httpClient = new Client();
+
+$url = 'https://httpbin.org/cookies';
+$urlHost = parse_url($url, PHP_URL_HOST);
+
+$cookies = [
+    new SetCookie([
+        'Name'     => 'foo',
+        'Value'    => 'bar',
+        
+        // Other attributes will not be sent to the server, they are only needed for validation.
+        'Domain'   => $urlHost,
+        'Path'     => '/',
+        'Max-Age'  => 100,
+        'Secure'   => false,
+        'Discard'  => false,
+        'HttpOnly' => false,
+    ]),
+    new SetCookie([
+        'Name'     => 'baz',
+        'Value'    => 'foo',
+        'Domain'   => $urlHost,
+        'Path'     => '/',
+        'Max-Age'  => 100,
+        'Secure'   => false,
+        'Discard'  => false,
+        'HttpOnly' => false,
+    ]),
+];
+
+$cookieJar = new CookieJar(true, $cookies);
+
+$response = $httpClient->get(
+    $url,
+    [
+        RequestOptions::COOKIES => $cookieJar,
+    ]
+);
+
+echo($response->getBody()->getContents());
+```
+
+#### Request headers
+
+```plain
+> GET /cookies HTTP/1.1
+Host: httpbin.org
+User-Agent: GuzzleHttp/6.3.3 curl/7.58.0 PHP/7.3.6-1+ubuntu18.04.1+deb.sury.org+1
+Cookie: foo=bar; baz=foo
+```
+
+<details><summary>Response</summary>
+<p>
+
+```json
+{
+  "cookies": {
+    "baz": "foo", 
+    "foo": "bar"
+  }
+}
+```
+
 ## Todo
 
-- [x] Set HTTP version
-- [x] Get cURL version
-- [x] Set User agent
-- [x] HTTP Referer
-- [ ] Cache control
-- [ ] HTTP methods (HEAD, CONNECT, OPTIONS, TRACE)
-- [ ] Cookies
-- [ ] Proxy
-- [ ] Transfer progress
-- [ ] Upload array of files in one POST field
-- [ ] Upload/Download large files
-- [ ] FTP transfer
-- [ ] All types of Auth
-- [ ] Multiple cURL handlers
-- [ ] SSL certificates
-- [ ] Streams
-- [ ] SOAP request
-- [ ] Best practices
+Project link - [https://github.com/andriichuk/php-curl-cookbook/projects/1#column-6364809](https://github.com/andriichuk/php-curl-cookbook/projects/1#column-6364809)
