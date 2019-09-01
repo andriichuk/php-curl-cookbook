@@ -46,6 +46,8 @@ For testing requests we will use the excellent services [httpbin.org](https://ht
         * [Basic Auth](#basic-auth)
         * [Digest Auth](#digest-auth)
         * [Bearer Auth](#bearer-auth)
+    * [Cookies](#cookies)
+        * [Send cookies from string](#send-cookies-from-string)
 * [Todo](#todo)
 
 ## Requirements
@@ -80,7 +82,6 @@ Run BASH example
 ```bash
 bash run bash 01_Basics/01_Request_Methods/01_Get/console.sh
 ```
-
 Run PHP example
 
 ```bash
@@ -1928,6 +1929,92 @@ print_r($response->getBody()->getContents());
 {
   "authenticated": true, 
   "token": "your_token"
+}
+```
+
+</p>
+</details>
+
+## Cookies
+
+### Send cookies from string
+
+#### Bash
+
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/03_Cookies/01_Send_Cookies_From_String/console.sh)]
+
+```bash
+curl --cookie "foo=bar;baz=foo" --request GET "https://httpbin.org/cookies"
+```
+
+#### PHP CURL extension
+
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/03_Cookies/01_Send_Cookies_From_String/curl-ext.php)]
+
+```php
+$curlHandler = curl_init();
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://httpbin.org/cookies',
+    CURLOPT_RETURNTRANSFER => true,
+
+    CURLOPT_COOKIE => 'foo=bar;baz=foo',
+
+    /**
+     * Or set header
+     * CURLOPT_HTTPHEADER => [
+           'Cookie: foo=bar;baz=foo',
+       ]
+     */
+]);
+
+$response = curl_exec($curlHandler);
+curl_close($curlHandler);
+
+echo $response;
+```
+
+#### PHP Guzzle library
+
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/02_Auth/03_Bearer_Auth/guzzle-lib.php)]
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\Cookie\CookieJar;
+use GuzzleHttp\RequestOptions;
+
+$httpClient = new Client();
+
+$url = 'https://httpbin.org/cookies';
+$urlHost = parse_url($url, PHP_URL_HOST);
+
+$cookieJar = CookieJar::fromArray(
+    [
+        'foo' => 'bar',
+        'baz' => 'foo',
+    ],
+    $urlHost
+);
+
+$response = $httpClient->get(
+    $url,
+    [
+        RequestOptions::COOKIES => $cookieJar,
+    ]
+);
+
+echo($response->getBody()->getContents());
+```
+
+<details><summary>Response</summary>
+<p>
+
+```json
+{
+  "cookies": {
+    "baz": "foo", 
+    "foo": "bar"
+  }
 }
 ```
 
