@@ -2101,6 +2101,7 @@ Cookie: foo=bar; baz=foo
 }
 ```
 </p>
+</details>
 
 ### Send cookies from file
 
@@ -2209,6 +2210,7 @@ echo $response->getBody()->getContents();
 }
 ```
 </p>
+</details>
 
 ## Todo
 
