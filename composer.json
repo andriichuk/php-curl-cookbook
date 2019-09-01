@@ -3,6 +3,7 @@
         "ext-curl": "*",
         "ext-mbstring": "*",
         "ext-fileinfo": "*",
+        "ext-json": "*",
         "guzzlehttp/guzzle": "^6.3"
     }
 }
