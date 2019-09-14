@@ -50,6 +50,7 @@ For testing requests we will use the excellent services [httpbin.org](https://ht
         * [Send cookies from string](#send-cookies-from-string)
         * [Set cookie options](#set-cookie-options)
         * [Send cookies from file](#send-cookies-from-file)
+        * [Save Response cookies to file](#save-response-cookies-to-file)
 * [Todo](#todo)
 
 ## Requirements
@@ -2205,6 +2206,78 @@ echo $response->getBody()->getContents();
 {
   "cookies": {
     "baz": "foo", 
+    "foo": "bar"
+  }
+}
+```
+</p>
+</details>
+
+### Save Response cookies to file
+
+#### Bash
+
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/03_Cookies/04_Save_Response_Cookies_To_File/console.sh)]
+
+```bash
+curl --location --cookie-jar "02_Advanced/03_Cookies/04_Save_Response_Cookies_To_File/resource/cookie-jar.txt" --request GET "https://httpbin.org/cookies/set/foo/bar"
+```
+
+#### PHP CURL extension
+
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/03_Cookies/04_Save_Response_Cookies_To_File/curl-ext.php)]
+
+```php
+$curlHandler = curl_init();
+
+$cookieFile = __DIR__ . '/resource/cookie-jar.txt';
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://httpbin.org/cookies/set/foo/bar',
+    CURLOPT_RETURNTRANSFER => true,
+
+    CURLOPT_COOKIEJAR  => $cookieFile,
+    CURLOPT_FOLLOWLOCATION => true,
+]);
+
+$response = curl_exec($curlHandler);
+curl_close($curlHandler);
+
+echo $response;
+```
+
+#### PHP Guzzle library
+
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/03_Cookies/04_Save_Response_Cookies_To_File/guzzle-lib.php)]
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Cookie\FileCookieJar;
+
+$httpClient = new Client();
+
+$cookieJarFile = new FileCookieJar(
+    __DIR__ . '/resource/guzzle-cookie-jar.json',
+    true
+);
+
+$response = $httpClient->get(
+    'https://httpbin.org/cookies/set/foo/bar',
+    [
+        RequestOptions::COOKIES => $cookieJarFile,
+    ]
+);
+
+echo $response->getBody()->getContents();
+```
+
+<details><summary>Response</summary>
+<p>
+
+```json
+{
+  "cookies": {
     "foo": "bar"
   }
 }
