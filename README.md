@@ -41,6 +41,7 @@ For testing requests we will use the excellent services [httpbin.org](https://ht
     * [Files](#files)
         * [Upload file](#upload-file)
         * [Upload multiple files](#upload-multiple-files)
+        * [Upload multiple files as an array](#upload-multiple-files-as-an-array)
         * [Download file](#download-file)
     * [Auth](#auth)
         * [Basic Auth](#basic-auth)
@@ -1534,7 +1535,7 @@ echo($response->getBody()->getContents());
 <p>
 
 ```json
-{"args":{},"data":{},"files":{"file":"data:application/octet-stream;base64,TG9yZW0gaXBzdW0gZG9sb3Igc2l0I ...
+{"args":{},"data":{},"files":{"file":"data:application/octet-stream;base64,TG9yZW0gaXBzdW0gZG9sb3Igc2l0I ..."}}
 ```
 
 </p>
@@ -1640,22 +1641,150 @@ echo($response->getBody()->getContents());
 ### Response example
 
 ```json
-{"args":{},"data":{},"files":{"text_file":"data:application/octet-stream;base64,TG9yZW0gaXBzdW0gZG9sb3Ig ...", "image_file":"data:application/octet-stream;base64,iVBORw0KGgoAAAANSUhEUgAAANAAAADQC ...
+{"args":{},"data":{},"files":{"text_file":"data:application/octet-stream;base64,TG9yZW0gaXBzdW0gZG9sb3Ig ...", "image_file":"data:application/octet-stream;base64,iVBORw0KGgoAAAANSUhEUgAAANAAAADQC ..."}}
+```
+
+### Upload multiple files as an array
+
+#### Bash
+
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/03_Upload_Array_Of_Files/console.sh)]
+
+```bash
+curl --form 'documents[]=@/home/serge/projects/php-curl-cookbook/02_Advanced/01_Files/03_Upload_Array_Of_Files/resource/file-1.txt' \
+--form 'documents[]=@/home/serge/projects/php-curl-cookbook/02_Advanced/01_Files/03_Upload_Array_Of_Files/resource/file-2.txt' \
+--form 'images[icon]=@/home/serge/projects/php-curl-cookbook/02_Advanced/01_Files/03_Upload_Array_Of_Files/resource/github-icon.png' \
+--form 'images[octocat]=@/home/serge/projects/php-curl-cookbook/02_Advanced/01_Files/03_Upload_Array_Of_Files/resource/github-octocat.jpg' \
+https://postman-echo.com/post
+```
+
+#### PHP CURL extension
+
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/03_Upload_Array_Of_Files/curl-ext.php)]
+
+```php
+$localFiles = [
+    // indexed
+    'documents' => [
+        __DIR__ . '/resource/file-1.txt',
+        __DIR__ . '/resource/file-2.txt',
+    ],
+
+    // associated
+    'images' => [
+        'icon' => __DIR__ . '/resource/github-icon.png',
+        'octocat' => __DIR__ . '/resource/github-octocat.jpg',
+    ],
+];
+
+$uploadFiles = [];
+
+foreach ($localFiles as $fileType => $files) {
+    foreach ($files as $filePostKey => $uploadFilePath) {
+        if (!file_exists($uploadFilePath)) {
+            throw new Exception('File not found: ' . $uploadFilePath);
+        }
+
+        $uploadFileMimeType = mime_content_type($uploadFilePath);
+        $keyName = sprintf('%s[%s]', $fileType, $filePostKey);
+
+        $uploadFiles[$keyName] = new CURLFile($uploadFilePath, $uploadFileMimeType, $filePostKey);
+    }
+}
+
+$curlHandler = curl_init();
+
+curl_setopt_array($curlHandler, [
+    CURLOPT_URL => 'https://postman-echo.com/post',
+    CURLOPT_RETURNTRANSFER => true,
+
+    /**
+     * Specify POST method
+     */
+    CURLOPT_POST => true,
+
+    /**
+     * Specify array of form fields
+     */
+    CURLOPT_POSTFIELDS => $uploadFiles,
+]);
+
+$response = curl_exec($curlHandler);
+
+curl_close($curlHandler);
+
+echo($response);
+```
+
+#### PHP Guzzle library
+
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/03_Upload_Array_Of_Files/guzzle-lib.php)]
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+
+$localFiles = [
+    'documents' => [
+        __DIR__ . '/resource/file-1.txt',
+        __DIR__ . '/resource/file-2.txt',
+    ],
+    'images' => [
+        'icon' => __DIR__ . '/resource/github-icon.png',
+        'octocat' => __DIR__ . '/resource/github-octocat.jpg',
+    ],
+];
+
+$uploadFiles = [];
+
+foreach ($localFiles as $fileType => $files) {
+    foreach ($files as $filePostKey => $uploadFilePath) {
+        if (!file_exists($uploadFilePath)) {
+            throw new Exception('File not found: ' . $uploadFilePath);
+        }
+
+        $uploadFileMimeType = mime_content_type($uploadFilePath);
+        $keyName = sprintf('%s[%s]', $fileType, $filePostKey);
+
+        array_push($uploadFiles, [
+            'name' => $keyName,
+            'contents' => new SplFileObject($uploadFilePath, 'r'),
+            'filename' => $keyName,
+        ]);
+    }
+}
+
+$httpClient = new Client();
+
+$response = $httpClient->post(
+    'https://postman-echo.com/post',
+    [
+        RequestOptions::MULTIPART => $uploadFiles,
+    ]
+);
+
+echo($response->getBody()->getContents());
+```
+
+### Response example
+
+```json
+{"args":{},"data":{},"files":{"file-1.txt":"data:application/octet-stream;base64,Rmlyc3QgRmlsZSBDb250ZW50Cg==","file-2.txt":"data:application/octet-stream;base64,U2V...=","github-icon.png":"data:application/octet-stream;base64,iVBORw...","github-octocat.jpg":"data:application/octet-stream;base64,/9j/4QAYRXhpZgAASUkqAAg..."},"form":{},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","content-length":"59650","accept":"*/*","content-type":"multipart/form-data; boundary=------------------------14a7692feb592877","user-agent":"curl/7.58.0","x-forwarded-port":"443"},"json":null,"url":"https://postman-echo.com/post"}
 ```
 
 ### Download file
 
 #### Bash
 
-[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/03_Download/console.sh)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/04_Download/console.sh)]
 
 ```bash
-curl https://httpbin.org/image/jpeg --output /home/serge/curl-examples/02_Advanced/01_Files/03_Download/resource/image.jpeg
+curl https://httpbin.org/image/jpeg --output /home/serge/curl-examples/02_Advanced/01_Files/04_Download/resource/image.jpeg
 ```
 
 #### PHP CURL extension
 
-[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/03_Download/curl-ext.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/04_Download/curl-ext.php)]
 
 ```php
 $imageFilePath = __DIR__ . '/resource/image.jpeg';
@@ -1678,7 +1807,7 @@ curl_close($curlHandler);
 
 #### PHP Guzzle library
 
-[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/03_Download/guzzle-lib.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/04_Download/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
@@ -1704,7 +1833,7 @@ if ($response->getStatusCode() === 200) {
 <p>
 
 ```plain
-The image has been successfully downloaded: /home/serge/curl-examples/02_Advanced/01_Files/03_Download/resource/image.jpeg
+The image has been successfully downloaded: /home/serge/curl-examples/02_Advanced/01_Files/04_Download/resource/image.jpeg
 ```
 
 </p>
