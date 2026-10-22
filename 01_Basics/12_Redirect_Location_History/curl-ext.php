@@ -17,7 +17,7 @@ curl_setopt_array(
                 $locations[] = trim($location['url']);
             }
 
-            return mb_strlen($header);
+            return strlen($header);
         },
     ]
 );

@@ -12,7 +12,7 @@ curl_setopt_array($curlHandler, [
 $response = curl_exec($curlHandler);
 $statusCode = curl_getinfo($curlHandler, CURLINFO_HTTP_CODE);
 
-if ($statusCode > 300) {
+if ($statusCode >= 300) {
     print_r('Redirection or Error response with status: ' . $statusCode);
 }
 

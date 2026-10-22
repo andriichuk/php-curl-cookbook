@@ -14,7 +14,7 @@ curl_setopt_array($curlHandler, [
     CURLOPT_RETURNTRANSFER => false,
 
     /**
-     * Include the header in the output
+     * Do not include headers in the output; collect them in the callback below
      */
     CURLOPT_HEADER => false,
 
@@ -24,7 +24,7 @@ curl_setopt_array($curlHandler, [
     CURLOPT_HEADERFUNCTION => function ($curlInfo, $header) use (&$headers) {
         $headers[] = trim($header);
 
-        return mb_strlen($header);
+        return strlen($header);
     },
 ]);
 

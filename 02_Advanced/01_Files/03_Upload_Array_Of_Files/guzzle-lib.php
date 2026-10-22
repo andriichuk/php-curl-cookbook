@@ -12,7 +12,6 @@ $localFiles = [
     ],
     'images' => [
         'icon' => __DIR__ . '/resource/github-icon.png',
-        'octocat' => __DIR__ . '/resource/github-octocat.jpg',
     ],
 ];
 
