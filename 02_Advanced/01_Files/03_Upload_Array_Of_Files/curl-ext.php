@@ -7,10 +7,9 @@ $localFiles = [
         __DIR__ . '/resource/file-2.txt',
     ],
 
-    // associated
+    // associative
     'images' => [
         'icon' => __DIR__ . '/resource/github-icon.png',
-        'octocat' => __DIR__ . '/resource/github-octocat.jpg',
     ],
 ];
 

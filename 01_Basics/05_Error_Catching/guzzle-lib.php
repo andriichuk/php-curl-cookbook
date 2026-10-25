@@ -10,7 +10,7 @@ $httpClient = new Client();
 
 try {
     $response = $httpClient->get(
-        'https://httpbin.org/dedlay/5',
+        'https://httpbin.org/delay/5',
         [
             RequestOptions::CONNECT_TIMEOUT => 2,
             RequestOptions::TIMEOUT => 3,

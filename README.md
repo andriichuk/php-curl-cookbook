@@ -1,21 +1,22 @@
-# PHP CURL Cookbook
+# PHP cURL Cookbook
 
 [![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://vshymanskyy.github.io/StandWithUkraine/)
 
-List of commonly used cases with PHP cURL extension.
+Common use cases for the PHP cURL extension, with equivalent Bash and Guzzle examples.
 
-CURL library [Home Page](https://curl.haxx.se/) and [Wiki Page](https://ec.haxx.se/).
+cURL library [Home Page](https://curl.haxx.se/) and [Wiki Page](https://ec.haxx.se/).
 
 PHP [Extension Page](http://docs.php.net/manual/en/book.curl.php) and [List Of Options](http://docs.php.net/manual/en/function.curl-setopt.php).
 
-PHP [Guzzle](http://docs.guzzlephp.org/en/stable/overview.html) library - wrapper over PHP CURL extension.
+PHP [Guzzle](https://docs.guzzlephp.org/en/6.5/overview.html) HTTP client library, which supports cURL and other HTTP handlers.
 
-For testing requests we will use the excellent services [httpbin.org](https://httpbin.org/) and [Postman Echo](https://docs.postman-echo.com).
+The examples send requests to the services [httpbin.org](https://httpbin.org/) and [Postman Echo](https://docs.postman-echo.com).
 
 # Table of Contents
 
 * [Requirements](#requirements)
 * [Installation](#installation)
+* [Testing](#testing)
 * [Basics](#basics)
     * [HTTP Request methods](#http-request-methods)
     	* [GET method](#get-method)
@@ -58,43 +59,47 @@ For testing requests we will use the excellent services [httpbin.org](https://ht
 
 ## Requirements
 
-* PHP >= 5.5
+* PHP >= 5.6 for the examples with `composer install --no-dev`
+* PHP >= 8.4 to install development dependencies and run Pest tests
+* Composer
+* Bash for the shell examples and checks
+* Docker and Docker Compose (`docker-compose`) for the container commands below
 * cURL PHP Extension
 * Mbstring PHP Extension
 * Fileinfo PHP Extension
 
 ## Installation
 
-Download repository
+Clone the repository:
 
 ```bash
 git clone https://github.com/andriichuk/php-curl-cookbook.git
 ```
 
-Go to the directory
+Go to the repository directory:
 
 ```bash
 cd ./php-curl-cookbook
 ```
 
-Install composer dependencies
+Install Composer dependencies:
 
 ```bash
-bash run composer install
+bash run composer install --no-dev
 ```
 
-Run BASH example
+Run a Bash example:
 
 ```bash
 bash run bash 01_Basics/01_Request_Methods/01_Get/console.sh
 ```
-Run PHP example
+Run a PHP example:
 
 ```bash
 bash run php 01_Basics/01_Request_Methods/01_Get/curl-ext.php
 ```
 
-For multiple usage
+To run multiple examples in an interactive container:
 
 ```bash
 bash console
@@ -102,6 +107,37 @@ bash console
 bash 01_Basics/01_Request_Methods/01_Get/console.sh
 php 01_Basics/01_Request_Methods/01_Get/curl-ext.php
 ```
+
+## Testing
+
+The behavioral tests use Pest 5 and require PHP 8.4 or newer. From the repository
+root, install development dependencies and run the checks:
+
+```bash
+composer install
+composer lint
+composer test
+```
+
+The provided Docker environment uses PHP 7.3 and can run example syntax checks:
+
+```bash
+bash run composer lint:examples
+```
+
+CI runs Pest and full syntax checks on PHP 8.4 and 8.5. PHP 5.6 and 7.3 jobs install
+dependencies with `--no-dev` and check example syntax only; they do not run
+behavioral tests. To check example syntax without installing dependencies, run
+`bash tests/lint.sh --examples-only`.
+
+The tests run offline. They check README example links, upload fixtures and
+multipart bodies, header callback byte counts, timeout configuration, HTTP status
+handling, and shell argument handling. Guzzle uses a mock handler; native cURL
+calls are captured by the test harness. These checks do not verify the availability
+or responses of httpbin.org and Postman Echo.
+
+Run `composer audit --locked` to check the locked dependencies against current
+security advisories. This command requires internet access.
 
 # Basics
 
@@ -117,11 +153,11 @@ php 01_Basics/01_Request_Methods/01_Get/curl-ext.php
 curl --request GET "https://postman-echo.com/get?foo=bar"
 ```
 
-#### PHP CURL extension 
+#### PHP cURL extension
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/01_Get/curl-ext.php)]
 
-The default method is GET. If you want to specify it directly than add `CURLOPT_CUSTOMREQUEST` option.
+The default method is GET. To specify it explicitly, add the `CURLOPT_CUSTOMREQUEST` option.
 
 ```php
 $curlHandler = curl_init();
@@ -144,7 +180,7 @@ echo($response);
 
 #### PHP Guzzle library 
 
-Call `get` method of Guzzle Client instance.
+Call the `get` method on a Guzzle Client instance.
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/01_Get/guzzle-lib.php)]
 
@@ -186,7 +222,7 @@ echo($response->getBody()->getContents());
 curl --request POST "https://postman-echo.com/post" --data "POST raw request content"
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/02_Post_Raw_Data/curl-ext.php)]
 
@@ -217,7 +253,7 @@ echo($response);
 
 #### PHP Guzzle library
 
-Call `post` method of Guzzle Client instance.
+Call the `post` method on a Guzzle Client instance.
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/02_Post_Raw_Data/guzzle-lib.php)]
 
@@ -261,7 +297,7 @@ echo($response->getBody()->getContents());
 curl --request POST "https://postman-echo.com/post" --data "foo=bar&baz=biz"
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/03_Post_Form_Data/curl-ext.php)]
 
@@ -295,7 +331,7 @@ echo($response);
 
 #### PHP Guzzle library
 
-Call `post` method of Guzzle Client instance.
+Call the `post` method on a Guzzle Client instance.
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/03_Post_Form_Data/guzzle-lib.php)]
 
@@ -338,7 +374,7 @@ echo($response->getBody()->getContents());
 curl --request PUT "https://postman-echo.com/put" --data "foo=bar&baz=biz"
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/04_Put/curl-ext.php)]
 
@@ -372,7 +408,7 @@ echo($pageContent);
 
 #### PHP Guzzle library
 
-Call `put` method of Guzzle Client instance.
+Call the `put` method on a Guzzle Client instance.
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/01_Request_Methods/04_Put/guzzle-lib.php)]
 
@@ -413,7 +449,7 @@ echo($response->getBody()->getContents());
 curl --request PATCH "https://postman-echo.com/patch" --data "foo=bar&baz=biz"
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 ```php
 $curlHandler = curl_init();
@@ -445,7 +481,7 @@ echo($pageContent);
 
 #### PHP Guzzle library
 
-Call `patch` method of Guzzle Client instance.
+Call the `patch` method on a Guzzle Client instance.
 
 ```php
 use GuzzleHttp\Client;
@@ -484,7 +520,7 @@ echo($response->getBody()->getContents());
 curl --request DELETE "https://postman-echo.com/delete" --data "foo=bar&baz=biz" --max-time 10
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 ```php
 $curlHandler = curl_init();
@@ -516,7 +552,7 @@ echo($pageContent);
 
 #### PHP Guzzle library
 
-Call `delete` method of Guzzle Client instance.
+Call the `delete` method on a Guzzle Client instance.
 
 ```php
 use GuzzleHttp\Client;
@@ -557,7 +593,7 @@ echo($response->getBody()->getContents());
 curl --request GET "https://postman-echo.com/headers" --header "foo: bar" --header "baz: biz"
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 ```php
 $curlHandler = curl_init();
@@ -623,7 +659,7 @@ print_r(
 curl --request GET "https://postman-echo.com/response-headers?Content-Type=text/html&foo=bar"
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 ```php
 $headers = [];
@@ -640,7 +676,7 @@ curl_setopt_array($curlHandler, [
     CURLOPT_RETURNTRANSFER => false,
 
     /**
-     * Include the header in the output
+     * Do not include headers in the output; collect them in the callback below
      */
     CURLOPT_HEADER => false,
 
@@ -650,7 +686,7 @@ curl_setopt_array($curlHandler, [
     CURLOPT_HEADERFUNCTION => function ($curlInfo, $header) use (&$headers) {
         array_push($headers, trim($header));
 
-        return mb_strlen($header);
+        return strlen($header);
     },
 ]);
 
@@ -708,7 +744,7 @@ See full list of options [here](https://ec.haxx.se/usingcurl-writeout.html)
 curl --request GET "https://postman-echo.com/get?foo=bar" -w "size_download:  %{size_download}" -o /dev/null -s
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 ```php
 $curlHandler = curl_init();
@@ -778,7 +814,7 @@ Array
 curl --verbose --request GET "https://postman-echo.com/get?foo=bar"
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/04_Debug_Request/01_Output_Debug_Info_To_Stderr/curl-ext.php)]
 
@@ -843,7 +879,7 @@ $httpClient->get(
 curl --request GET "https://postman-echo.com/get?foo=bar" --verbose --silent > debug.log 2>&1
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/04_Debug_Request/02_Output_Debug_Info_To_File/curl-ext.php)]
 
@@ -910,7 +946,7 @@ $httpClient->get(
 curl --verbose --request GET "https://httpbin.org/delay/5" --max-time 3 --connect-timeout 2
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/05_Error_Catching/curl-ext.php)]
 
@@ -927,7 +963,7 @@ curl_setopt_array($curlHandler, [
 $response = curl_exec($curlHandler);
 $statusCode = curl_getinfo($curlHandler, CURLINFO_HTTP_CODE);
 
-if ($statusCode > 300) {
+if ($statusCode >= 300) {
     print_r('Redirection or Error response with status: ' . $statusCode);
 }
 
@@ -954,7 +990,7 @@ $httpClient = new Client();
 
 try {
     $response = $httpClient->get(
-        'https://httpbin.org/dedlay/5',
+        'https://httpbin.org/delay/5',
         [
             RequestOptions::CONNECT_TIMEOUT => 2,
             RequestOptions::TIMEOUT => 3,
@@ -992,7 +1028,7 @@ Array
 curl --location --max-redirs 5 -X GET "https://httpbin.org/absolute-redirect/3"
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 ```php
 $curlHandler = curl_init();
@@ -1055,15 +1091,15 @@ echo $response->getStatusCode();
 
 #### Bash
 
-[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/06_Timeouts/console.sh)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/07_Timeouts/console.sh)]
 
 ```bash
 curl --request GET "https://httpbin.org/delay/5" --max-time 20 --connect-timeout 10
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
-[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/06_Timeouts/curl-ext.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/07_Timeouts/curl-ext.php)]
 
 ```php
 $curlHandler = curl_init();
@@ -1084,7 +1120,7 @@ print_r($response);
 
 #### PHP Guzzle library
 
-[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/06_Timeouts/guzzle-lib.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/07_Timeouts/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
@@ -1115,7 +1151,7 @@ print_r($response->getBody()->getContents());
 curl --request GET "https://httpbin.org/get" --http2
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/08_Set_Http_Version/curl-ext.php)]
 
@@ -1183,7 +1219,7 @@ Array
 curl --version
 ```
 
-#### PHP CURL extension and Guzzle library
+#### PHP cURL extension and Guzzle library
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/09_Get_Curl_Version/curl-ext.php)]
 
@@ -1214,7 +1250,7 @@ Features: AsynchDNS IDN IPv6 Largefile GSS-API Kerberos SPNEGO NTLM NTLM_WB SSL 
 curl --request GET "https://httpbin.org/get" --user-agent 'Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A537a Safari/419.3'
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/10_Set_User_Agent/curl-ext.php)]
 
@@ -1284,7 +1320,7 @@ curl --verbose --location --request GET "https://httpbin.org/absolute-redirect/5
 </p>
 </details>
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/12_Redirect_Location_History/curl-ext.php)]
 
@@ -1306,7 +1342,7 @@ curl_setopt_array(
                 $locations[] = trim($location['url']);
             }
 
-            return mb_strlen($header);
+            return strlen($header);
         },
     ]
 );
@@ -1385,7 +1421,7 @@ Array
 curl --request GET "https://httpbin.org/get" --referer "https://github.com"
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/13_Set_Http_Referer/curl-ext.php)]
 
@@ -1407,7 +1443,7 @@ print_r($response);
 
 #### PHP Guzzle library
 
-[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/13_Set_Http_Referer/curl-ext.php)]
+[[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/01_Basics/13_Set_Http_Referer/guzzle-lib.php)]
 
 ```php
 use GuzzleHttp\Client;
@@ -1450,6 +1486,9 @@ print_r($response->getBody()->getContents());
 
 ## Files
 
+Run the inline Bash commands below from the repository root. The linked shell
+scripts resolve file paths relative to their own directories.
+
 ### Upload file
 
 #### Bash
@@ -1457,11 +1496,10 @@ print_r($response->getBody()->getContents());
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/01_Upload/console.sh)]
 
 ```bash
-# format: curl --form '[request_field_name]=@[absolute_path_to_file]' [upload_url]
-curl --form 'file=@/home/serge/curl-examples/02_Advanced/01_Files/01_Upload/resource/file.txt' https://postman-echo.com/post
+curl --form 'file=@02_Advanced/01_Files/01_Upload/resource/file.txt' https://postman-echo.com/post
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/01_Upload/curl-ext.php)]
 
@@ -1550,12 +1588,12 @@ echo($response->getBody()->getContents());
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/02_Upload_Multiple/console.sh)]
 
 ```bash
-curl --form 'text_file=@/home/serge/curl-examples/02_Advanced/01_Files/02_Upload_Multiple/resource/file.txt' \
---form 'image_file=@/home/serge/curl-examples/02_Advanced/01_Files/02_Upload_Multiple/resource/github-icon.png' \
+curl --form 'text_file=@02_Advanced/01_Files/02_Upload_Multiple/resource/file.txt' \
+--form 'image_file=@02_Advanced/01_Files/02_Upload_Multiple/resource/github-icon.png' \
 https://postman-echo.com/post
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/02_Upload_Multiple/curl-ext.php)]
 
@@ -1653,14 +1691,13 @@ echo($response->getBody()->getContents());
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/03_Upload_Array_Of_Files/console.sh)]
 
 ```bash
-curl --form 'documents[]=@/home/serge/projects/php-curl-cookbook/02_Advanced/01_Files/03_Upload_Array_Of_Files/resource/file-1.txt' \
---form 'documents[]=@/home/serge/projects/php-curl-cookbook/02_Advanced/01_Files/03_Upload_Array_Of_Files/resource/file-2.txt' \
---form 'images[icon]=@/home/serge/projects/php-curl-cookbook/02_Advanced/01_Files/03_Upload_Array_Of_Files/resource/github-icon.png' \
---form 'images[octocat]=@/home/serge/projects/php-curl-cookbook/02_Advanced/01_Files/03_Upload_Array_Of_Files/resource/github-octocat.jpg' \
+curl --form 'documents[]=@02_Advanced/01_Files/03_Upload_Array_Of_Files/resource/file-1.txt' \
+--form 'documents[]=@02_Advanced/01_Files/03_Upload_Array_Of_Files/resource/file-2.txt' \
+--form 'images[icon]=@02_Advanced/01_Files/03_Upload_Array_Of_Files/resource/github-icon.png' \
 https://postman-echo.com/post
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/03_Upload_Array_Of_Files/curl-ext.php)]
 
@@ -1672,10 +1709,9 @@ $localFiles = [
         __DIR__ . '/resource/file-2.txt',
     ],
 
-    // associated
+    // associative
     'images' => [
         'icon' => __DIR__ . '/resource/github-icon.png',
-        'octocat' => __DIR__ . '/resource/github-octocat.jpg',
     ],
 ];
 
@@ -1733,7 +1769,6 @@ $localFiles = [
     ],
     'images' => [
         'icon' => __DIR__ . '/resource/github-icon.png',
-        'octocat' => __DIR__ . '/resource/github-octocat.jpg',
     ],
 ];
 
@@ -1771,7 +1806,7 @@ echo($response->getBody()->getContents());
 ### Response example
 
 ```json
-{"args":{},"data":{},"files":{"file-1.txt":"data:application/octet-stream;base64,Rmlyc3QgRmlsZSBDb250ZW50Cg==","file-2.txt":"data:application/octet-stream;base64,U2V...=","github-icon.png":"data:application/octet-stream;base64,iVBORw...","github-octocat.jpg":"data:application/octet-stream;base64,/9j/4QAYRXhpZgAASUkqAAg..."},"form":{},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","content-length":"59650","accept":"*/*","content-type":"multipart/form-data; boundary=------------------------14a7692feb592877","user-agent":"curl/7.58.0","x-forwarded-port":"443"},"json":null,"url":"https://postman-echo.com/post"}
+{"args":{},"data":{},"files":{"file-1.txt":"data:application/octet-stream;base64,Rmlyc3QgRmlsZSBDb250ZW50Cg==","file-2.txt":"data:application/octet-stream;base64,U2V...=","github-icon.png":"data:application/octet-stream;base64,iVBORw..."},"form":{},"headers":{"x-forwarded-proto":"https","host":"postman-echo.com","content-length":"59650","accept":"*/*","content-type":"multipart/form-data; boundary=------------------------14a7692feb592877","user-agent":"curl/7.58.0","x-forwarded-port":"443"},"json":null,"url":"https://postman-echo.com/post"}
 ```
 
 ### Download file
@@ -1781,10 +1816,10 @@ echo($response->getBody()->getContents());
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/04_Download/console.sh)]
 
 ```bash
-curl https://httpbin.org/image/jpeg --output /home/serge/curl-examples/02_Advanced/01_Files/04_Download/resource/image.jpeg
+curl https://httpbin.org/image/jpeg --output 02_Advanced/01_Files/04_Download/resource/image.jpeg
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/01_Files/04_Download/curl-ext.php)]
 
@@ -1835,7 +1870,7 @@ if ($response->getStatusCode() === 200) {
 <p>
 
 ```plain
-The image has been successfully downloaded: /home/serge/curl-examples/02_Advanced/01_Files/04_Download/resource/image.jpeg
+The image has been successfully downloaded: 02_Advanced/01_Files/04_Download/resource/image.jpeg
 ```
 
 </p>
@@ -1853,7 +1888,7 @@ The image has been successfully downloaded: /home/serge/curl-examples/02_Advance
 curl --user postman:password --request GET "https://postman-echo.com/basic-auth"
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/02_Auth/01_Basic_Auth/curl-ext.php)]
 
@@ -1940,7 +1975,7 @@ print_r($response->getBody()->getContents());
 curl --digest --user postman:password --request GET "https://postman-echo.com/digest-auth"
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/02_Auth/02_Digest_Auth/curl-ext.php)]
 
@@ -2007,7 +2042,7 @@ print_r($response->getBody()->getContents());
 curl -X GET "https://httpbin.org/bearer" -H "Accept: application/json" -H "Authorization: Bearer your_token"
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/02_Auth/03_Bearer_Auth/curl-ext.php)]
 
@@ -2081,7 +2116,7 @@ print_r($response->getBody()->getContents());
 curl --cookie "foo=bar;baz=foo" --request GET "https://httpbin.org/cookies"
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/03_Cookies/01_Send_Cookies_From_String/curl-ext.php)]
 
@@ -2253,7 +2288,7 @@ httpbin.org	FALSE	/	    FALSE	0	        baz	    foo
 curl --cookie "02_Advanced/03_Cookies/03_Send_Cookies_From_File/resource/cookie-jar.txt" --request GET "https://httpbin.org/cookies"
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/03_Cookies/03_Send_Cookies_From_File/curl-ext.php)]
 
@@ -2354,7 +2389,7 @@ echo $response->getBody()->getContents();
 curl --location --cookie-jar "02_Advanced/03_Cookies/04_Save_Response_Cookies_To_File/resource/cookie-jar.txt" --request GET "https://httpbin.org/cookies/set/foo/bar"
 ```
 
-#### PHP CURL extension
+#### PHP cURL extension
 
 [[example](https://github.com/andriichuk/php-curl-cookbook/blob/master/02_Advanced/03_Cookies/04_Save_Response_Cookies_To_File/curl-ext.php)]
 

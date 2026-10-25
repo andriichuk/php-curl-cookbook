@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-curl https://httpbin.org/image/jpeg --output /home/serge/curl-examples/02_Advanced/01_Files/03_Download/resource/image.jpeg
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+
+curl https://httpbin.org/image/jpeg --output "${script_dir}/resource/image.jpeg"

@@ -1,9 +1,23 @@
 {
+    "license": "MIT",
     "require": {
         "ext-curl": "*",
         "ext-mbstring": "*",
         "ext-fileinfo": "*",
         "ext-json": "*",
         "guzzlehttp/guzzle": "^6.3"
+    },
+    "require-dev": {
+        "pestphp/pest": "^5.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "scripts": {
+        "test": "pest",
+        "lint": "bash tests/lint.sh",
+        "lint:examples": "bash tests/lint.sh --examples-only"
     }
 }
