@@ -59,7 +59,8 @@ The examples send requests to the services [httpbin.org](https://httpbin.org/) a
 
 ## Requirements
 
-* PHP >= 5.6 with the checked-in Composer lock file
+* PHP >= 5.6 for the examples with `composer install --no-dev`
+* PHP >= 8.4 to install development dependencies and run Pest tests
 * Composer
 * Bash for the shell examples and checks
 * Docker and Docker Compose (`docker-compose`) for the container commands below
@@ -84,7 +85,7 @@ cd ./php-curl-cookbook
 Install Composer dependencies:
 
 ```bash
-bash run composer install
+bash run composer install --no-dev
 ```
 
 Run a Bash example:
@@ -109,7 +110,8 @@ php 01_Basics/01_Request_Methods/01_Get/curl-ext.php
 
 ## Testing
 
-From the repository root, install the dependencies and run the checks:
+The behavioral tests use Pest 5 and require PHP 8.4 or newer. From the repository
+root, install development dependencies and run the checks:
 
 ```bash
 composer install
@@ -117,11 +119,16 @@ composer lint
 composer test
 ```
 
-With the Docker environment, prefix each command with `bash run`, for example:
+The provided Docker environment uses PHP 7.3 and can run example syntax checks:
 
 ```bash
-bash run composer test
+bash run composer lint:examples
 ```
+
+CI runs Pest and full syntax checks on PHP 8.4 and 8.5. PHP 5.6 and 7.3 jobs install
+dependencies with `--no-dev` and check example syntax only; they do not run
+behavioral tests. To check example syntax without installing dependencies, run
+`bash tests/lint.sh --examples-only`.
 
 The tests run offline. They check README example links, upload fixtures and
 multipart bodies, header callback byte counts, timeout configuration, HTTP status

@@ -2,7 +2,7 @@
 
 namespace CookbookTests;
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
@@ -54,13 +54,6 @@ function curl_errno($handle)
 
 function curl_close($handle)
 {
-}
-
-function check($condition, $message)
-{
-    if (!$condition) {
-        throw new \RuntimeException($message);
-    }
 }
 
 /**

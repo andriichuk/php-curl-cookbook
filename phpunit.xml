@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendor/autoload.php" cacheDirectory=".phpunit.cache">
+    <testsuites>
+        <testsuite name="Cookbook">
+            <directory suffix="Test.php">tests</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory>01_Basics</directory>
+            <directory>02_Advanced</directory>
+        </include>
+    </source>
+</phpunit>

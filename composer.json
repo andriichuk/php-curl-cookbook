@@ -7,8 +7,17 @@
         "ext-json": "*",
         "guzzlehttp/guzzle": "^6.3"
     },
+    "require-dev": {
+        "pestphp/pest": "^5.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
     "scripts": {
-        "test": "php tests/run.php",
-        "lint": "bash tests/lint.sh"
+        "test": "pest",
+        "lint": "bash tests/lint.sh",
+        "lint:examples": "bash tests/lint.sh --examples-only"
     }
 }

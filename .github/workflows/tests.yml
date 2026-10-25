@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 jobs:
-  examples:
+  legacy-syntax:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -18,8 +18,6 @@ jobs:
             composer: '2.2'
           - php: '7.3'
             composer: 'v2'
-          - php: '8.5'
-            composer: 'v2'
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
@@ -27,6 +25,24 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: curl, mbstring, fileinfo
           tools: composer:${{ matrix.composer }}
+          coverage: none
+      - run: composer validate --strict --no-check-publish
+      - run: composer install --no-dev --no-interaction --prefer-dist --no-progress
+      - run: composer lint:examples
+
+  pest:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.4', '8.5']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: curl, mbstring, fileinfo
+          tools: composer:v2
           coverage: none
       - run: composer validate --strict --no-check-publish
       - run: composer install --no-interaction --prefer-dist --no-progress
